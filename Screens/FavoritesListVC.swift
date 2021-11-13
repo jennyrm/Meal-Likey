@@ -1,13 +1,13 @@
 //
-//  FavoritesVC.swift
+//  FavoritesListVC.swift
 //  Meal-Likey
 //
-//  Created by Jenny Morales on 11/11/21.
+//  Created by Jenny Morales on 11/12/21.
 //
 
 import UIKit
 
-class FavoritesVC: UIViewController {
+class FavoritesListVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
