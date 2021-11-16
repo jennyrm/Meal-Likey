@@ -17,7 +17,7 @@ class RecipeListVC: UIViewController {
         super.viewDidLoad()
         configureViewController()
         configureSearchController()
-//        configureCollectionView()
+        configureCollectionView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,9 +41,10 @@ class RecipeListVC: UIViewController {
     }
     
     func configureCollectionView() {
-//        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: <#T##UICollectionViewLayout#>)
-//
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
+
         view.addSubview(collectionView)
+        collectionView.backgroundColor = .systemPink
         
         collectionView.delegate = self
     }
