@@ -12,12 +12,16 @@ class SearchVC: UIViewController {
     let recipeTextField = MLTextField()
     let callToActionButton = MLButton(backgroundColor: .systemTeal, title: "Find")
     
+    let padding: CGFloat = 20
+    let itemHeight: CGFloat = 50
+    
     var isRecipeEntered: Bool { !recipeTextField.text!.isEmpty}
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
-        addSubviewsAndLayoutUI()
+        configureTextField()
+        configureCallToActionButton()
         createDismissKeyboardTapGesture()
     }
     
@@ -25,12 +29,10 @@ class SearchVC: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
-    func addSubviewsAndLayoutUI() {
+    func configureTextField() {
         view.addSubview(recipeTextField)
-        view.addSubview(callToActionButton)
         
-        let padding: CGFloat = 20
-        let itemHeight: CGFloat = 50
+//        recipeTextField.delegate = self
         
         NSLayoutConstraint.activate([
             recipeTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -38,7 +40,13 @@ class SearchVC: UIViewController {
             recipeTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             recipeTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             recipeTextField.heightAnchor.constraint(equalToConstant: itemHeight),
-            
+        ])
+    }
+    
+    func configureCallToActionButton() {
+        view.addSubview(callToActionButton)
+        
+        NSLayoutConstraint.activate([
             callToActionButton.topAnchor.constraint(equalTo: recipeTextField.bottomAnchor, constant: padding),
             callToActionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 6 * padding),
             callToActionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -6 * padding),
@@ -48,9 +56,15 @@ class SearchVC: UIViewController {
         callToActionButton.addTarget(self, action: #selector(pushRecipeListVC), for: .touchUpInside)
     }
     
+    func createDismissKeyboardTapGesture() {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        view.addGestureRecognizer(tap)
+    }
+    
     @objc func pushRecipeListVC() {
-        //add alertController
-        guard isRecipeEntered else { return }
+        guard isRecipeEntered else {
+            return presentAlertMessage(title: "Invalid Request", message: "Please enter a recipe name.", buttonTitle: "Ok")
+        }
         
         let recipeListVC = RecipeListVC()
         recipeListVC.title = "\(recipeTextField.text!) Recipes"
@@ -59,16 +73,11 @@ class SearchVC: UIViewController {
         navigationController?.pushViewController(recipeListVC, animated: true)
     }
     
-    func createDismissKeyboardTapGesture() {
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        view.addGestureRecognizer(tap)
-    }
-    
 }
 
 //MARK: - Extensions
-extension SearchVC: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return true
-    }
-}
+//extension SearchVC: UITextFieldDelegate {
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        return true
+//    }
+//}
