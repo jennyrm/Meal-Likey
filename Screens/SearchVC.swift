@@ -10,7 +10,7 @@ import UIKit
 class SearchVC: UIViewController {
     
     let recipeTextField = MLTextField()
-    let callToActionButton = MLButton(backgroundColor: .systemTeal, title: "Find")
+    let callToActionButton = MLButton(backgroundColor: .systemTeal, title: "Find Recipe")
     
     let padding: CGFloat = 20
     let itemHeight: CGFloat = 50
@@ -25,6 +25,11 @@ class SearchVC: UIViewController {
         createDismissKeyboardTapGesture()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     func configureViewController() {
         view.backgroundColor = .systemBackground
     }
@@ -32,7 +37,7 @@ class SearchVC: UIViewController {
     func configureTextField() {
         view.addSubview(recipeTextField)
         
-//        recipeTextField.delegate = self
+        recipeTextField.delegate = self
         
         NSLayoutConstraint.activate([
             recipeTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -67,17 +72,17 @@ class SearchVC: UIViewController {
         }
         
         let recipeListVC = RecipeListVC()
-        recipeListVC.title = "\(recipeTextField.text!) Recipes"
+        recipeListVC.title = recipeTextField.text
         recipeListVC.recipeName = recipeTextField.text
         
         navigationController?.pushViewController(recipeListVC, animated: true)
     }
     
-}
+}//End of class
 
-//MARK: - Extensions
-//extension SearchVC: UITextFieldDelegate {
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        return true
-//    }
-//}
+extension SearchVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return true
+    }
+}

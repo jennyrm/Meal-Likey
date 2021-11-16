@@ -19,7 +19,7 @@ class MLTextField: UITextField {
     }
     
     private func configure() {
-        placeholder = "Enter recipe name..."
+//        placeholder = "Enter recipe name..."
         
         layer.cornerRadius = 10
         layer.borderWidth = 2

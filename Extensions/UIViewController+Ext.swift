@@ -12,7 +12,7 @@ extension UIViewController {
         DispatchQueue.main.async {
             let alertVC = MLAlertVC(title: title, message: message, buttonTitle: buttonTitle)
             alertVC.modalPresentationStyle = .overFullScreen
-            alertVC.modalTransitionStyle = .coverVertical
+            alertVC.modalTransitionStyle = .crossDissolve
             
             self.present(alertVC, animated: true)
         }
