@@ -1,13 +1,13 @@
 //
-//  MealtimeListVC.swift
+//  MealtimesVC.swift
 //  Meal-Likey
 //
-//  Created by Jenny Morales on 11/12/21.
+//  Created by Jenny Morales on 11/13/21.
 //
 
 import UIKit
 
-class MealtimeListVC: UIViewController {
+class MealtimesVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -15,7 +15,7 @@ class MLTabBarController: UITabBarController {
         viewControllers = [createSearchNC(), createFavoritesNC(), createMealtimeNC()]
     }
     
-    func createSearchNC() -> UINavigationController {
+    private func createSearchNC() -> UINavigationController {
         let searchVC = SearchVC()
         searchVC.title = "Search Recipe"
         searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
@@ -23,7 +23,7 @@ class MLTabBarController: UITabBarController {
         return UINavigationController(rootViewController: searchVC)
     }
     
-    func createFavoritesNC() -> UINavigationController {
+    private func createFavoritesNC() -> UINavigationController {
         let favoritesVC = FavoritesListVC()
         favoritesVC.title = "Favorite Recipes"
         favoritesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
@@ -31,12 +31,12 @@ class MLTabBarController: UITabBarController {
         return UINavigationController(rootViewController: favoritesVC)
     }
     
-    func createMealtimeNC() -> UINavigationController {
-        let mealTimeVC = MealtimeListVC()
-        mealTimeVC.title = "Meal Times"
-        mealTimeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
+    private func createMealtimeNC() -> UINavigationController {
+        let mealTimesVC = MealtimesVC()
+        mealTimesVC.title = "Meal Times"
+        mealTimesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
         
-        return UINavigationController(rootViewController: mealTimeVC)
+        return UINavigationController(rootViewController: mealTimesVC)
     }
 
 }
