@@ -42,10 +42,10 @@ class RecipeListVC: UIViewController {
     
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
-
-        view.addSubview(collectionView)
-        collectionView.backgroundColor = .systemPink
         
+        view.addSubview(collectionView)
+        
+        collectionView.backgroundColor = .systemBackground
         collectionView.delegate = self
     }
     
