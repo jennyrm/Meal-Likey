@@ -12,7 +12,7 @@ class NetworkManager {
     static let shared = NetworkManager()
     let cache = NSCache<NSString, UIImage>()
     
-    private let baseURL = "https://tasty.p.rapidapi.com/"
+    private let baseURL = "https://tasty.p.rapidapi.com/recipes/detail"
     private let headers = [
         "X-RapidAPI-Host": "tasty.p.rapidapi.com",
         "X-RapidAPI-Key": "da15175627msh92545092087f045p1ac653jsnc254cceec242"
@@ -21,13 +21,21 @@ class NetworkManager {
     //make a private init for singleton so that it can only be initialized here
     private init() {}
     
-    func getRecipes(for recipe: String, completed: @escaping (Result<[Recipe], MLError>) -> Void) {
+    func getRecipes(for recipe: String, completed: @escaping (Result<Recipe, MLError>) -> Void) {
         
-        let endpoint = baseURL
+        let endpoint = URL(string: baseURL)
+        var components = URLComponents(url: endpoint!, resolvingAgainstBaseURL: true)
+        let prefixQuery = URLQueryItem(name: "prefix", value: recipe)
+        components?.queryItems = [prefixQuery]
         
-        guard let url = URL(string: endpoint) else { return }
+        guard let url = components?.url else { return }
+        print(url)
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.allHTTPHeaderFields = headers
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             //if let vs guard?
             if let error = error {
                 print("Error in \(#function): on line \(#line) : \(error.localizedDescription) \n---\n \(error)")
@@ -46,7 +54,7 @@ class NetworkManager {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
             
-                let recipes = try decoder.decode([Recipe].self, from: data)
+                let recipes = try decoder.decode(Recipe.self, from: data)
                 
                 //why no return?
                 completed(.success(recipes))

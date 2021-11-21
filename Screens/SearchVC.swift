@@ -23,6 +23,10 @@ class SearchVC: UIViewController {
         configureTextField()
         configureCallToActionButton()
         createDismissKeyboardTapGesture()
+        
+        NetworkManager.shared.getRecipes(for: "coffee") { result in
+            print(result)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
