@@ -21,12 +21,12 @@ class NetworkManager {
     //make a private init for singleton so that it can only be initialized here
     private init() {}
     
-    func getRecipes(for recipe: String, completed: @escaping (Result<Recipe, MLError>) -> Void) {
+    func getRecipes(for recipe: String, completed: @escaping (Result<TopLevelObject, MLError>) -> Void) {
         
         let endpoint = URL(string: baseURL)
         var components = URLComponents(url: endpoint!, resolvingAgainstBaseURL: true)
-        let prefixQuery = URLQueryItem(name: "prefix", value: recipe)
-        components?.queryItems = [prefixQuery]
+//        let prefixQuery = URLQueryItem(name: "prefix", value: recipe)
+//        components?.queryItems = [prefixQuery]
         
         guard let url = components?.url else { return }
         print(url)
@@ -54,9 +54,8 @@ class NetworkManager {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
             
-                let recipes = try decoder.decode(Recipe.self, from: data)
-                
-                //why no return?
+                let recipes = try decoder.decode(TopLevelObject.self, from: data)
+
                 completed(.success(recipes))
             } catch {
                 completed(.failure(.invalidData))

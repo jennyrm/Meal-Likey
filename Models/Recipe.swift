@@ -7,6 +7,11 @@
 
 import Foundation
 
+struct TopLevelObject: Codable {
+    //why struct for object model?
+    let results: [Recipe]
+}
+
 struct Recipe: Codable {
     //why struct for object model?
     let name: String
