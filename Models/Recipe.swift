@@ -7,13 +7,7 @@
 
 import Foundation
 
-struct TopLevelObject: Codable {
-    //why struct for object model?
-    let results: [Recipe]
-}
-
-struct Recipe: Codable {
-    //why struct for object model?
+struct Recipe: Codable, Hashable {
     let name: String
-    let description: String?
+    let thumbnailUrl: String?
 }

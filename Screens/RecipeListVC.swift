@@ -9,15 +9,22 @@ import UIKit
 
 class RecipeListVC: UIViewController {
     
-    var recipeName: String!
+    enum Section { case main }
+    
+    var foodName: String!
     
     var collectionView: UICollectionView!
+    var dataSource: UICollectionViewDiffableDataSource<Section, RecipeList>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
         configureSearchController()
         configureCollectionView()
+        
+        NetworkManager.shared.getRecipes(for: foodName) { result in
+            print(result)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,8 +37,8 @@ class RecipeListVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
 
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
-        navigationItem.rightBarButtonItem = addButton
+//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+//        navigationItem.rightBarButtonItem = addButton
     }
     
     func configureSearchController() {
@@ -47,11 +54,15 @@ class RecipeListVC: UIViewController {
         
         collectionView.backgroundColor = .systemBackground
         collectionView.delegate = self
+        collectionView.register(RecipeListCell.self, forCellWithReuseIdentifier: RecipeListCell.reuseID)
     }
     
-    @objc func addButtonTapped() {
+    func configureDataSource() {
         
     }
+//    @objc func addButtonTapped() {
+//        
+//    }
     
 }//End of class
 

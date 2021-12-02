@@ -12,7 +12,7 @@ class NetworkManager {
     static let shared = NetworkManager()
     let cache = NSCache<NSString, UIImage>()
     
-    private let baseURL = "https://tasty.p.rapidapi.com/recipes/detail"
+    private let baseURL = "https://tasty.p.rapidapi.com/recipes/list"
     private let headers = [
         "X-RapidAPI-Host": "tasty.p.rapidapi.com",
         "X-RapidAPI-Key": "da15175627msh92545092087f045p1ac653jsnc254cceec242"
@@ -25,8 +25,10 @@ class NetworkManager {
         
         let endpoint = URL(string: baseURL)
         var components = URLComponents(url: endpoint!, resolvingAgainstBaseURL: true)
-//        let prefixQuery = URLQueryItem(name: "prefix", value: recipe)
-//        components?.queryItems = [prefixQuery]
+        let fromQuery = URLQueryItem(name: "from", value: "0")
+        let sizeQuery = URLQueryItem(name: "size", value: "20")
+        let qQuery = URLQueryItem(name: "q", value: recipe)
+        components?.queryItems = [fromQuery, sizeQuery, qQuery]
         
         guard let url = components?.url else { return }
         print(url)
@@ -54,9 +56,9 @@ class NetworkManager {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
             
-                let recipes = try decoder.decode(TopLevelObject.self, from: data)
+                let data = try decoder.decode(TopLevelObject.self, from: data)
 
-                completed(.success(recipes))
+                completed(.success(data))
             } catch {
                 completed(.failure(.invalidData))
             }
