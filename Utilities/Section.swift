@@ -9,6 +9,6 @@ import Foundation
 
 //hashable by default
 enum Section {
-    case recipeList
     case recipes
+    case recipeList
 }

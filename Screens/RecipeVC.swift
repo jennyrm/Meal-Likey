@@ -9,8 +9,8 @@ import UIKit
 
 class RecipeVC: UIViewController {
     
-    var singleRecipeList: RecipeList?
     var recipe: Recipe?
+    var recipeListItem: RecipeList?
 
     override func viewDidLoad() {
         super.viewDidLoad()

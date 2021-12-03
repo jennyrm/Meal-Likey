@@ -71,10 +71,10 @@ class SearchVC: UIViewController {
             return presentAlertMessage(title: "Invalid Request", message: "Please enter a recipe name.", buttonTitle: "Ok")
         }
         
-        let recipeListVC = RecipeListVC()
-        recipeListVC.item = foodTextField.text
+        let recipesVC = RecipesVC()
+        recipesVC.item = foodTextField.text
         
-        navigationController?.pushViewController(recipeListVC, animated: true)
+        navigationController?.pushViewController(recipesVC, animated: true)
     }
     
 }//End of class

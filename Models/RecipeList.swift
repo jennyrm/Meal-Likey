@@ -2,21 +2,19 @@
 //  RecipeList.swift
 //  Meal-Likey
 //
-//  Created by Jenny Morales on 12/1/21.
+//  Created by Jenny Morales on 12/2/21.
 //
 
 import Foundation
 
-//hash is how it figures out if the data needs to change
-struct TopLevelObject: Codable, Hashable {
-    //why struct for object model?
-    //why must all classes conform to hashable
-    let results: [RecipeList]
-}
-
 struct RecipeList: Codable, Hashable {
     let name: String
     let thumbnailUrl: String?
+    let videoUrl: String?
     let description: String?
-    let recipes: [Recipe]?
+    let userRatings: UserRating
+    let numServings: Int?
+    let yields: String?
+    let nutrition: Nutrition
+    let instructions: [Instruction]
 }

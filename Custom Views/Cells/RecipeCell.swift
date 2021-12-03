@@ -11,7 +11,7 @@ class RecipeCell: UICollectionViewCell {
     
     static let reuseID = "RecipeCell"
     
-    let recipeLabel = MLBodyLabel(textAlignment: .left)
+    let recipeLabel = MLTitleLabel(textAlignment: .left, fontSize: 14)
     let recipeImageView = MLRecipeImageView(frame: .zero)
     
     override init(frame: CGRect) {
@@ -32,19 +32,19 @@ class RecipeCell: UICollectionViewCell {
         addSubview(recipeLabel)
         addSubview(recipeImageView)
         
-        let padding: CGFloat = 12
+        let padding: CGFloat = 8
         
         NSLayoutConstraint.activate([
             recipeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
             recipeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             recipeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            recipeLabel.heightAnchor.constraint(equalToConstant: 80),
+            recipeLabel.heightAnchor.constraint(equalToConstant: 60),
             
             recipeImageView.topAnchor.constraint(equalTo: recipeLabel.bottomAnchor),
             recipeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             recipeImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            recipeImageView.heightAnchor.constraint(equalToConstant: 100),
-            recipeImageView.widthAnchor.constraint(equalToConstant: 100)
+            recipeImageView.heightAnchor.constraint(equalToConstant: 150),
+            recipeImageView.widthAnchor.constraint(equalToConstant: 150)
         ])
     }
     
