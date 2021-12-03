@@ -30,7 +30,8 @@ class MLTitleLabel: UILabel {
         textColor = .label
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = 0.9
-        lineBreakMode = .byTruncatingTail
+        lineBreakMode = .byWordWrapping
+        numberOfLines = 0
         
         translatesAutoresizingMaskIntoConstraints = false
     }

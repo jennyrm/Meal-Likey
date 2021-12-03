@@ -33,6 +33,7 @@ class MLTextField: UITextField {
         
         backgroundColor = .tertiarySystemBackground
         autocorrectionType = .no
+        autocapitalizationType = .words
         returnKeyType = .default
         
         translatesAutoresizingMaskIntoConstraints = false

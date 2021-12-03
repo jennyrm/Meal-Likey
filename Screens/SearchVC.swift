@@ -72,8 +72,7 @@ class SearchVC: UIViewController {
         }
         
         let recipeListVC = RecipeListVC()
-        recipeListVC.title = "Recipes with \(foodTextField.text!)"
-        recipeListVC.foodName = foodTextField.text
+        recipeListVC.item = foodTextField.text
         
         navigationController?.pushViewController(recipeListVC, animated: true)
     }
