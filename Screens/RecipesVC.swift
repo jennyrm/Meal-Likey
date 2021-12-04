@@ -113,10 +113,10 @@ extension RecipesVC: UICollectionViewDelegate {
         let contentHeight = scrollView.contentSize.height
         let height = scrollView.frame.size.height
 
-        print("contentHeight:", contentHeight)
-        print("contentHeight - height:", contentHeight - height)
-        print("offsetY:", offsetY)
-        
+//        print("contentHeight:", contentHeight)
+//        print("contentHeight - height:", contentHeight - height)
+//        print("offsetY:", offsetY)
+//
         if offsetY > contentHeight - height {
             pagination += 40
             getRecipes(for: item, from: pagination)
