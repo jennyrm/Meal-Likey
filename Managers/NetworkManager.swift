@@ -21,17 +21,16 @@ class NetworkManager {
     //make a private init for singleton so that it can only be initialized here
     private init() {}
     
-    func getRecipes(for recipe: String, completed: @escaping (Result<TopLevelObject, MLError>) -> Void) {
+    func getRecipes(for recipe: String, from pagination: Int, completed: @escaping (Result<TopLevelObject, MLError>) -> Void) {
         
         let endpoint = URL(string: baseURL)
         var components = URLComponents(url: endpoint!, resolvingAgainstBaseURL: true)
-        let fromQuery = URLQueryItem(name: "from", value: "0")
-        let sizeQuery = URLQueryItem(name: "size", value: "20")
+        let fromQuery = URLQueryItem(name: "from", value: String(pagination))
+        let sizeQuery = URLQueryItem(name: "size", value: "40")
         let qQuery = URLQueryItem(name: "q", value: recipe)
         components?.queryItems = [fromQuery, sizeQuery, qQuery]
         
         guard let url = components?.url else { return }
-        print(url)
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -54,7 +53,7 @@ class NetworkManager {
             
             do {
                 let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
+//                decoder.keyDecodingStrategy = .convertFromSnakeCase
             
                 let data = try decoder.decode(TopLevelObject.self, from: data)
 

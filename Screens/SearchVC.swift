@@ -9,13 +9,13 @@ import UIKit
 
 class SearchVC: UIViewController {
     
-    let foodTextField = MLTextField()
-    let callToActionButton = MLButton(backgroundColor: .systemTeal, title: "Find Recipe")
+    let itemTextField = MLTextField()
+    let callToActionButton = MLButton(backgroundColor: .systemPink, title: "Find Recipe")
     
     let padding: CGFloat = 20
     let itemHeight: CGFloat = 50
     
-    var isFoodNameEntered: Bool { !foodTextField.text!.isEmpty}
+    var isItemEntered: Bool { !itemTextField.text!.isEmpty}
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,16 +35,16 @@ class SearchVC: UIViewController {
     }
     
     func configureTextField() {
-        view.addSubview(foodTextField)
+        view.addSubview(itemTextField)
         
-        foodTextField.delegate = self
+        itemTextField.delegate = self
         
         NSLayoutConstraint.activate([
-            foodTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            foodTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            foodTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            foodTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            foodTextField.heightAnchor.constraint(equalToConstant: itemHeight),
+            itemTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            itemTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            itemTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            itemTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            itemTextField.heightAnchor.constraint(equalToConstant: itemHeight),
         ])
     }
     
@@ -52,7 +52,7 @@ class SearchVC: UIViewController {
         view.addSubview(callToActionButton)
         
         NSLayoutConstraint.activate([
-            callToActionButton.topAnchor.constraint(equalTo: foodTextField.bottomAnchor, constant: padding),
+            callToActionButton.topAnchor.constraint(equalTo: itemTextField.bottomAnchor, constant: padding),
             callToActionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 6 * padding),
             callToActionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -6 * padding),
             callToActionButton.heightAnchor.constraint(equalToConstant: itemHeight),
@@ -67,12 +67,12 @@ class SearchVC: UIViewController {
     }
     
     @objc func pushRecipeListVC() {
-        guard isFoodNameEntered else {
+        guard isItemEntered else {
             return presentAlertMessage(title: "Invalid Request", message: "Please enter a recipe name.", buttonTitle: "Ok")
         }
         
         let recipesVC = RecipesVC()
-        recipesVC.item = foodTextField.text
+        recipesVC.item = itemTextField.text
         
         navigationController?.pushViewController(recipesVC, animated: true)
     }

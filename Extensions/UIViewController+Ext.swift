@@ -23,4 +23,8 @@ extension UIViewController {
         emptyStateView.frame = view.bounds
         view.addSubview(emptyStateView)
     }
+    
+    func showLoadingView() {
+        
+    }
 }

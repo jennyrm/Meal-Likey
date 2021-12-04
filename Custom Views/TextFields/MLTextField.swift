@@ -23,7 +23,7 @@ class MLTextField: UITextField {
         
         layer.cornerRadius = 10
         layer.borderWidth = 2
-        layer.borderColor = UIColor.systemTeal.cgColor
+        layer.borderColor = UIColor.secondarySystemBackground.cgColor
         
         textColor = .label
         tintColor = .label

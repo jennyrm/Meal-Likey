@@ -67,7 +67,8 @@ extension RecipeListVC: UICollectionViewDelegate {
         let recipeListItem = recipes[indexPath.item]
         recipeVC.recipeListItem = recipeListItem
         
-        navigationController?.pushViewController(recipeVC, animated: true)
+        let navController = UINavigationController(rootViewController: recipeVC)
+        present(navController, animated: true, completion: nil)
     }
 }
 

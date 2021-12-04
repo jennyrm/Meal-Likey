@@ -11,6 +11,7 @@ class RecipesVC: UIViewController {
 
     var item: String!
     var recipes = [Recipe]()
+    var pagination = 0
     
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Recipe>!
@@ -18,9 +19,9 @@ class RecipesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
-//        configureSearchController()
+        configureSearchController()
         configureCollectionView()
-        getRecipes(for: item)
+        getRecipes(for: item, from: pagination)
         configureDataSource()
     }
     
@@ -35,13 +36,11 @@ class RecipesVC: UIViewController {
         
         let trimmedString = item.trimmingCharacters(in: .whitespacesAndNewlines).capitalizingFirstLetter()
         title = "\(trimmedString) Recipes"
-//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
-//        navigationItem.rightBarButtonItem = addButton
     }
     
     func configureSearchController() {
         let searchController = UISearchController()
-        searchController.searchBar.placeholder = "Search for a recipe"
+//        searchController.searchBar.placeholder = "Search for a recipe"
         navigationItem.searchController = searchController
     }
     
@@ -50,13 +49,15 @@ class RecipesVC: UIViewController {
         
         view.addSubview(collectionView)
         
-//        collectionView.backgroundColor = .systemPink
+        collectionView.backgroundColor = .systemBackground
         collectionView.delegate = self
         collectionView.register(RecipeCell.self, forCellWithReuseIdentifier: RecipeCell.reuseID)
     }
     
-    func getRecipes(for item: String) {
-        NetworkManager.shared.getRecipes(for: item) { [weak self] result in
+    func getRecipes(for item: String, from pagination: Int) {
+        showLoadingView()
+        
+        NetworkManager.shared.getRecipes(for: item, from: pagination) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
@@ -86,10 +87,6 @@ class RecipesVC: UIViewController {
         
         dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
     }
-
-//    @objc func addButtonTapped() {
-//
-//    }
     
 }//End of class
 
@@ -101,12 +98,29 @@ extension RecipesVC: UICollectionViewDelegate {
         guard let recipes = recipes[indexPath.item].recipes else {
             let recipe = recipes[indexPath.item]
             recipeVC.recipe = recipe
-            navigationController?.pushViewController(recipeVC, animated: true)
+            
+            let navController = UINavigationController(rootViewController: recipeVC)
+            present(navController, animated: true, completion: nil)
             return
         }
         
         recipeListVC.recipes = recipes
         navigationController?.pushViewController(recipeListVC, animated: true)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+
+        print("contentHeight:", contentHeight)
+        print("contentHeight - height:", contentHeight - height)
+        print("offsetY:", offsetY)
+        
+        if offsetY > contentHeight - height {
+            pagination += 40
+            getRecipes(for: item, from: pagination)
+        }
     }
 }
 

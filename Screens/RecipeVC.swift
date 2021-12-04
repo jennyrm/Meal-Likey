@@ -19,6 +19,20 @@ class RecipeVC: UIViewController {
     
     func configureViewController() {
         view.backgroundColor = .systemBackground
+        
+        let favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(favoriteButtonTapped))
+        navigationItem.rightBarButtonItem = favoriteButton
+        
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
+        navigationItem.leftBarButtonItem = doneButton
+    }
+    
+    @objc func favoriteButtonTapped() {
+        
+    }
+    
+    @objc func doneButtonTapped() {
+        self.dismiss(animated: true, completion: nil)
     }
     
 }
