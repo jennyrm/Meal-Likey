@@ -42,6 +42,7 @@ class RecipesVC: UIViewController {
         let searchController = UISearchController()
 //        searchController.searchBar.placeholder = "Search for a recipe"
         navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     func configureCollectionView() {
@@ -60,6 +61,8 @@ class RecipesVC: UIViewController {
         NetworkManager.shared.getRecipes(for: item, from: pagination) { [weak self] result in
             guard let self = self else { return }
             
+            self.dismissLoadingView()
+            
             switch result {
             case .success(let recipes):
                 self.recipes.append(contentsOf: recipes.results)
@@ -72,7 +75,6 @@ class RecipesVC: UIViewController {
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, recipe in
-            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecipeCell.reuseID, for: indexPath) as! RecipeCell
             cell.set(recipe: recipe)
             
