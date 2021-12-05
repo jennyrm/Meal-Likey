@@ -11,6 +11,7 @@ import Foundation
 struct TopLevelObject: Codable, Hashable {
     //why struct for object model?
     //why must all classes conform to hashable
+    let count: Int
     let results: [Recipe]
 }
 

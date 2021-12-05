@@ -11,6 +11,7 @@ class RecipesVC: UIViewController {
 
     var item: String!
     var recipes = [Recipe]()
+    var recipeCount = 0
     var pagination = 0
     
     var collectionView: UICollectionView!
@@ -66,6 +67,7 @@ class RecipesVC: UIViewController {
             switch result {
             case .success(let recipes):
                 self.recipes.append(contentsOf: recipes.results)
+                self.recipeCount = recipes.count
                 self.updateData(on: self.recipes)
             case .failure(let error):
                 self.presentAlertMessage(title: "Unable to connect to the network.", message: error.rawValue, buttonTitle: "Ok")
@@ -120,6 +122,8 @@ extension RecipesVC: UICollectionViewDelegate {
 //        print("offsetY:", offsetY)
 //
         if offsetY > contentHeight - height {
+            guard recipeCount > pagination else { return }
+            print("pagination:", pagination)
             pagination += 40
             getRecipes(for: item, from: pagination)
         }
