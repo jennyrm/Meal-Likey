@@ -8,10 +8,10 @@
 import Foundation
 
 struct Nutrition: Codable, Hashable {
-    let protein: Int
-    let fat: Int
-    let calories: Int
-    let sugar: Int
-    let carbohydrates: Int
-    let fiber: Int
+    let protein: Int?
+    let fat: Int?
+    let calories: Int?
+    let sugar: Int?
+    let carbohydrates: Int?
+    let fiber: Int?
 }

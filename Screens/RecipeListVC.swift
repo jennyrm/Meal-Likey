@@ -9,7 +9,7 @@ import UIKit
 
 class RecipeListVC: UIViewController {
 
-    var recipes = [RecipeList]()
+    var recipeList = [RecipeList]()
     
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, RecipeList>!
@@ -17,7 +17,7 @@ class RecipeListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
-        configureCollectionView()
+        configureSearchController()
         configureCollectionView()
         configureDataSource()
     }
@@ -30,10 +30,18 @@ class RecipeListVC: UIViewController {
         view.backgroundColor = .systemBackground
         title = "More Recipes"
     }
+    
+    func configureSearchController() {
+        let searchController = UISearchController()
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+    }
 
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
+        
         view.addSubview(collectionView)
+        
         collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
         collectionView.register(RecipeListCell.self, forCellWithReuseIdentifier: RecipeListCell.reuseID)
@@ -48,7 +56,7 @@ class RecipeListVC: UIViewController {
             return cell
         })
         
-        updateData(on: recipes)
+        updateData(on: recipeList)
     }
     
     func updateData(on recipes: [RecipeList]) {
@@ -64,11 +72,10 @@ class RecipeListVC: UIViewController {
 extension RecipeListVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recipeVC = RecipeVC()
-        let recipeListItem = recipes[indexPath.item]
+        let recipeListItem = recipeList[indexPath.item]
         recipeVC.recipeListItem = recipeListItem
         
         let navController = UINavigationController(rootViewController: recipeVC)
         present(navController, animated: true, completion: nil)
     }
 }
-

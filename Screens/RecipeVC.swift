@@ -25,6 +25,12 @@ class RecipeVC: UIViewController {
         
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
         navigationItem.leftBarButtonItem = doneButton
+//
+//        guard let recipe = recipe else { return }
+//        print(recipe)
+        
+        guard let recipeListItem = recipeListItem else { return }
+        print(recipeListItem)
     }
     
     @objc func favoriteButtonTapped() {

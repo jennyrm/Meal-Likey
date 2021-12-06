@@ -19,10 +19,14 @@ struct Recipe: Codable, Hashable {
     let name: String
     let thumbnailUrl: String?
     let description: String?
+    let numServings: Int?
     let recipes: [RecipeList]?
+    let userRatings: UserRating?
+    let nutrition: Nutrition?
+    let instructions: [Instruction]?
     
     private enum CodingKeys: String, CodingKey {
-        case name = "name", thumbnailUrl = "thumbnail_url", description = "description", recipes = "recipes"
+        case name = "name", thumbnailUrl = "thumbnail_url", description = "description", numServings = "num_servings", recipes = "recipes", userRatings = "user_ratings", nutrition = "nutrition", instructions = "instructions"
     }
     
     init(from decoder: Decoder) throws {
@@ -30,6 +34,10 @@ struct Recipe: Codable, Hashable {
         name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
         thumbnailUrl = try container.decodeIfPresent(String.self, forKey: .thumbnailUrl)
         description = try container.decodeIfPresent(String.self, forKey: .description)
+        numServings = try container.decodeIfPresent(Int.self, forKey: .numServings)
         recipes = try container.decodeIfPresent(Array.self, forKey: .recipes)
+        userRatings = try container.decodeIfPresent(UserRating.self, forKey: .userRatings)
+        nutrition = try container.decodeIfPresent(Nutrition.self, forKey: .nutrition)
+        instructions = try container.decodeIfPresent(Array.self, forKey: .instructions)
     }
 }

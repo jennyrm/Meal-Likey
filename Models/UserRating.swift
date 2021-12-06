@@ -8,5 +8,11 @@
 import Foundation
 
 struct UserRating: Codable, Hashable {
+    let score: Double?
+    let countPositive: Int?
+    let countNegative: Int?
     
+    private enum CodingKeys: String, CodingKey {
+        case score = "score", countPositive = "count_positive", countNegative = "count_negative"
+    }
 }

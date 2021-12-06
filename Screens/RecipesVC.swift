@@ -50,8 +50,8 @@ class RecipesVC: UIViewController {
         
         view.addSubview(collectionView)
         
-        collectionView.backgroundColor = .systemBackground
         collectionView.delegate = self
+        collectionView.backgroundColor = .systemBackground
         collectionView.register(RecipeCell.self, forCellWithReuseIdentifier: RecipeCell.reuseID)
     }
     
@@ -98,17 +98,16 @@ extension RecipesVC: UICollectionViewDelegate {
         let recipeListVC = RecipeListVC()
         let recipeVC = RecipeVC()
         
-        guard let recipes = recipes[indexPath.item].recipes else {
+        if let recipeList = recipes[indexPath.item].recipes {
+            recipeListVC.recipeList = recipeList
+            navigationController?.pushViewController(recipeListVC, animated: true)
+        } else {
             let recipe = recipes[indexPath.item]
             recipeVC.recipe = recipe
             
             let navController = UINavigationController(rootViewController: recipeVC)
             present(navController, animated: true, completion: nil)
-            return
         }
-        
-        recipeListVC.recipes = recipes
-        navigationController?.pushViewController(recipeListVC, animated: true)
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
