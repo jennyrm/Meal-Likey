@@ -21,11 +21,11 @@ class NetworkManager {
     //make a private init for singleton so that it can only be initialized here
     private init() {}
     
-    func getRecipes(for recipe: String, from pagination: Int, completed: @escaping (Result<TopLevelObject, MLError>) -> Void) {
+    func getRecipes(for recipe: String, from recipeValue: Int, completed: @escaping (Result<TopLevelObject, MLError>) -> Void) {
         
         let endpoint = URL(string: baseURL)
         var components = URLComponents(url: endpoint!, resolvingAgainstBaseURL: true)
-        let fromQuery = URLQueryItem(name: "from", value: String(pagination))
+        let fromQuery = URLQueryItem(name: "from", value: String(recipeValue))
         let sizeQuery = URLQueryItem(name: "size", value: "40")
         let qQuery = URLQueryItem(name: "q", value: recipe)
         components?.queryItems = [fromQuery, sizeQuery, qQuery]
