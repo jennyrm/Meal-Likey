@@ -11,7 +11,7 @@ class RecipeCell: UICollectionViewCell {
     
     static let reuseID = "RecipeCell"
     
-    let recipeLabel = MLTitleLabel(textAlignment: .left, fontSize: 16)
+    let recipeLabel = MLTitleLabel(textAlignment: .left, fontSize: 16, fontWeight: .bold)
     let recipeImageView = MLRecipeImageView(frame: .zero)
     
     override init(frame: CGRect) {

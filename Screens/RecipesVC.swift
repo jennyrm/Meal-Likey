@@ -74,7 +74,11 @@ class RecipesVC: UIViewController {
         }
     }
     
+    //collection view doesnt manage the underlying data - data source object does
+    //data source manages the data and provides the collection view with snapshots to display
+    //diffable data source: rather than telling the data source how to move the data around -> tell the data source what the new state of data is; data source automatically does the job of figuring out the diff btwn the old state and the new and how to apply the changes to collection views
     func configureDataSource() {
+        //data source takes each value from the snapshot and applies it to the collection view
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, recipe in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecipeCell.reuseID, for: indexPath) as! RecipeCell
             cell.set(recipe: recipe)
@@ -84,6 +88,8 @@ class RecipesVC: UIViewController {
     }
     
     func updateData(on recipeList: [Recipe]) {
+        //snapshot = truth of the current UI state
+        //provide the snapshot to the data source along with instructions on what to do with the data
         var snapshot = NSDiffableDataSourceSnapshot<Section, Recipe>()
         snapshot.appendSections([.recipes])
         snapshot.appendItems(recipeList)

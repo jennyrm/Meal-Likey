@@ -10,7 +10,7 @@ import UIKit
 class MLAlertVC: UIViewController {
     
     let containerView = MLAlertContainer()
-    let titleLabel = MLTitleLabel(textAlignment: .center, fontSize: 20)
+    let titleLabel = MLTitleLabel(textAlignment: .center, fontSize: 20, fontWeight: .bold)
     let messageLabel = MLBodyLabel(textAlignment: .center)
     let actionButton = MLButton(backgroundColor: .systemPink, title: "Ok")
     

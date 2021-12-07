@@ -1,14 +1,14 @@
 //
-//  MLTabulatedView.swift
+//  MLAlertContainerView.swift
 //  Meal-Likey
 //
-//  Created by Jenny Morales on 12/6/21.
+//  Created by Jenny Morales on 12/7/21.
 //
 
 import UIKit
 
-class MLTabulatedView: UIView {
-
+class MLAlertContainer: UIView {
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -20,9 +20,11 @@ class MLTabulatedView: UIView {
     
     private func configure() {
         backgroundColor = .systemBackground
-        layer.cornerRadius = 10
+        layer.cornerRadius = 16
+        layer.borderWidth = 2
+        layer.borderColor = UIColor.white.cgColor
         
         translatesAutoresizingMaskIntoConstraints = false
     }
-
+    
 }

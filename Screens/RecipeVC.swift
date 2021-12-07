@@ -9,17 +9,17 @@ import UIKit
 
 class RecipeVC: UIViewController {
     
-    var recipeImageView = MLRecipeImageView(frame: .zero)
-    var recipeTitle = MLTitleLabel(textAlignment: .center, fontSize: 24)
-    var userRatingsLabel = MLTitleLabel(textAlignment: .center, fontSize: 20)
-    var tabulatedView = MLTabulatedView()
-    var segmentedControl = MLSegmentedControl(frame: .zero)
-    var scrollView: UIScrollView!
-    
-    let padding: CGFloat = 12
-    
     var recipe: Recipe?
     var recipeListItem: RecipeList?
+    
+    var scrollView: UIScrollView!
+    var recipeImageView = MLRecipeImageView(frame: .zero)
+    var recipeTitle = MLTitleLabel(textAlignment: .center, fontSize: 26, fontWeight: .bold)
+    var userRatingsLabel = MLTitleLabel(textAlignment: .center, fontSize: 20, fontWeight: .light)
+    var segmentedControl = MLSegmentedControl(frame: .zero)
+    var tabulatedView = MLSegmentContainerView()
+    
+    let padding: CGFloat = 12
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,18 +57,20 @@ class RecipeVC: UIViewController {
     func configureRecipeHeader() {
         //jennyrm - FIX
         if let recipe = recipe {
+            print(recipe)
             recipeImageView.downloadImage(from: recipe.thumbnailUrl ?? "")
             recipeTitle.text = recipe.name
             
-            let userRatingScore = recipe.userRatings?.score?.convertToWholeNumber()
-            userRatingsLabel.text = "Rating: \(userRatingScore ?? 0)%"
+            let userRatingScore = (recipe.userRatings?.score ?? 0).convertToWholeNumber()
+            userRatingsLabel.text = "Rating: \(userRatingScore)%"
         }
         if let recipeListItem = recipeListItem {
+            print(recipeListItem)
             recipeImageView.downloadImage(from: recipeListItem.thumbnailUrl ?? "")
             recipeTitle.text = recipeListItem.name
             
-            let userRatingScore = recipeListItem.userRatings?.score?.convertToWholeNumber()
-            userRatingsLabel.text = "Rating: \(userRatingScore ?? 0)%"
+            let userRatingScore = (recipeListItem.userRatings?.score ?? 0).convertToWholeNumber()
+            userRatingsLabel.text = "Rating: \(userRatingScore)%"
         }
         
         scrollView.addSubview(recipeImageView)
@@ -81,15 +83,15 @@ class RecipeVC: UIViewController {
             recipeImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             recipeImageView.heightAnchor.constraint(equalToConstant: 280),
             
-            recipeTitle.topAnchor.constraint(equalTo: recipeImageView.bottomAnchor, constant: padding),
+            recipeTitle.topAnchor.constraint(equalTo: recipeImageView.bottomAnchor),
             recipeTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             recipeTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            recipeTitle.heightAnchor.constraint(equalToConstant: 60),
+            recipeTitle.heightAnchor.constraint(equalToConstant: 70),
             
             userRatingsLabel.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor),
             userRatingsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             userRatingsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            userRatingsLabel.heightAnchor.constraint(equalToConstant: 60)
+            userRatingsLabel.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     
@@ -118,6 +120,18 @@ class RecipeVC: UIViewController {
         segmentedControl.addTarget(self, action: #selector(segmentedValueChanged), for: .valueChanged)
     }
     
+    func configureNutritionTab() {
+        tabulatedView.backgroundColor = .systemPink
+    }
+    
+    func configureIngredientsTab() {
+        tabulatedView.backgroundColor = .systemPink
+    }
+    
+    func configureInstructionsTab() {
+        tabulatedView.backgroundColor = .systemPink
+    }
+    
     @objc func favoriteButtonTapped() {
         
     }
@@ -128,10 +142,14 @@ class RecipeVC: UIViewController {
     
     @objc func segmentedValueChanged(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
-        case 0: tabulatedView.backgroundColor = .systemPink
-        case 1: tabulatedView.backgroundColor = .systemRed
-        case 2: tabulatedView.backgroundColor = .systemBlue
-        default: return
+        case 0:
+            configureNutritionTab()
+        case 1:
+            configureIngredientsTab()
+        case 2:
+            configureInstructionsTab()
+        default:
+            return
         }
     }
     

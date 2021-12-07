@@ -9,13 +9,13 @@ import UIKit
 
 class SearchVC: UIViewController {
     
+    var isItemEntered: Bool { !itemTextField.text!.isEmpty}
+    
     let itemTextField = MLTextField()
     let callToActionButton = MLButton(backgroundColor: .systemPink, title: "Find Recipe")
     
     let padding: CGFloat = 20
     let itemHeight: CGFloat = 50
-    
-    var isItemEntered: Bool { !itemTextField.text!.isEmpty}
     
     override func viewDidLoad() {
         super.viewDidLoad()

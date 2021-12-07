@@ -9,7 +9,7 @@ import UIKit
 
 class MLEmptyStateView: UIView {
 
-    let messageLabel = MLTitleLabel(textAlignment: .center, fontSize: 28)
+    let messageLabel = MLTitleLabel(textAlignment: .center, fontSize: 28, fontWeight: .bold)
     let emptyImageView = UIImageView()
     
     override init(frame: CGRect) {

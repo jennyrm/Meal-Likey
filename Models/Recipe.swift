@@ -23,12 +23,14 @@ struct Recipe: Codable, Hashable {
     let recipes: [RecipeList]?
     let userRatings: UserRating?
     let nutrition: Nutrition?
+    let sections: [RecipeComponent]?
     let instructions: [Instruction]?
     
     private enum CodingKeys: String, CodingKey {
-        case name = "name", thumbnailUrl = "thumbnail_url", description = "description", numServings = "num_servings", recipes = "recipes", userRatings = "user_ratings", nutrition = "nutrition", instructions = "instructions"
+        case name = "name", thumbnailUrl = "thumbnail_url", description = "description", numServings = "num_servings", recipes = "recipes", userRatings = "user_ratings", nutrition = "nutrition", sections = "sections", instructions = "instructions"
     }
     
+    //some json objects do not have a recipes property, so this is needed to check against that
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
@@ -38,6 +40,7 @@ struct Recipe: Codable, Hashable {
         recipes = try container.decodeIfPresent(Array.self, forKey: .recipes)
         userRatings = try container.decodeIfPresent(UserRating.self, forKey: .userRatings)
         nutrition = try container.decodeIfPresent(Nutrition.self, forKey: .nutrition)
+        sections = try container.decodeIfPresent(Array.self, forKey: .sections)
         instructions = try container.decodeIfPresent(Array.self, forKey: .instructions)
     }
 }
