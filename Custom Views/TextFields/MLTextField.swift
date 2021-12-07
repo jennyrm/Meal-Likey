@@ -19,8 +19,6 @@ class MLTextField: UITextField {
     }
     
     private func configure() {
-//        placeholder = "Enter recipe name..."
-        
         layer.cornerRadius = 10
         layer.borderWidth = 2
         layer.borderColor = UIColor.secondarySystemBackground.cgColor

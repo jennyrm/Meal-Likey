@@ -11,7 +11,7 @@ class RecipeCell: UICollectionViewCell {
     
     static let reuseID = "RecipeCell"
     
-    let recipeLabel = MLTitleLabel(textAlignment: .left, fontSize: 14)
+    let recipeLabel = MLTitleLabel(textAlignment: .left, fontSize: 16)
     let recipeImageView = MLRecipeImageView(frame: .zero)
     
     override init(frame: CGRect) {
@@ -25,6 +25,7 @@ class RecipeCell: UICollectionViewCell {
     
     func set(recipe: Recipe) {
         recipeLabel.text = recipe.name
+        //jennyrm - 
         recipeImageView.downloadImage(from: recipe.thumbnailUrl ?? "")
     }
     

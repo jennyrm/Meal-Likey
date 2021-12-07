@@ -7,7 +7,7 @@
 
 import Foundation
 
-//hashable by default
+//enum is hashable by default
 enum Section {
     case recipes
     case recipeList
