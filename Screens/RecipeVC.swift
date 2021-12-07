@@ -11,7 +11,7 @@ class RecipeVC: UIViewController {
     
     var recipeImageView = MLRecipeImageView(frame: .zero)
     var recipeTitle = MLTitleLabel(textAlignment: .center, fontSize: 24)
-    var userRatingsDropDown = MLButton(backgroundColor: .systemBlue, title: "")
+    var userRatingsLabel = MLTitleLabel(textAlignment: .center, fontSize: 20)
     var tabulatedView = MLTabulatedView()
     var segmentedControl = MLSegmentedControl(frame: .zero)
     var scrollView: UIScrollView!
@@ -59,15 +59,21 @@ class RecipeVC: UIViewController {
         if let recipe = recipe {
             recipeImageView.downloadImage(from: recipe.thumbnailUrl ?? "")
             recipeTitle.text = recipe.name
+            
+            let userRatingScore = recipe.userRatings?.score?.convertToWholeNumber()
+            userRatingsLabel.text = "Rating: \(userRatingScore ?? 0)%"
         }
         if let recipeListItem = recipeListItem {
             recipeImageView.downloadImage(from: recipeListItem.thumbnailUrl ?? "")
             recipeTitle.text = recipeListItem.name
+            
+            let userRatingScore = recipeListItem.userRatings?.score?.convertToWholeNumber()
+            userRatingsLabel.text = "Rating: \(userRatingScore ?? 0)%"
         }
         
         scrollView.addSubview(recipeImageView)
         scrollView.addSubview(recipeTitle)
-        scrollView.addSubview(userRatingsDropDown)
+        scrollView.addSubview(userRatingsLabel)
         
         NSLayoutConstraint.activate([
             recipeImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: padding),
@@ -80,10 +86,10 @@ class RecipeVC: UIViewController {
             recipeTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             recipeTitle.heightAnchor.constraint(equalToConstant: 60),
             
-            userRatingsDropDown.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor, constant: padding),
-            userRatingsDropDown.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            userRatingsDropDown.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            userRatingsDropDown.heightAnchor.constraint(equalToConstant: 60)
+            userRatingsLabel.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor),
+            userRatingsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            userRatingsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            userRatingsLabel.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
@@ -91,7 +97,7 @@ class RecipeVC: UIViewController {
         scrollView.addSubview(tabulatedView)
     
         NSLayoutConstraint.activate([
-            tabulatedView.topAnchor.constraint(equalTo: userRatingsDropDown.bottomAnchor, constant: padding),
+            tabulatedView.topAnchor.constraint(equalTo: userRatingsLabel.bottomAnchor, constant: padding),
             tabulatedView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             tabulatedView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             tabulatedView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -padding),
