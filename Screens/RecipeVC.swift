@@ -11,7 +11,7 @@ class RecipeVC: UIViewController {
     
     var recipeImageView = MLRecipeImageView(frame: .zero)
     var recipeTitle = MLTitleLabel(textAlignment: .center, fontSize: 24)
-    var userRatingsPickerView = MLPickerView()
+    var userRatingsDropDown = MLButton(backgroundColor: .systemBlue, title: "")
     var tabulatedView = MLTabulatedView()
     var segmentedControl = MLSegmentedControl(frame: .zero)
     var scrollView: UIScrollView!
@@ -67,7 +67,7 @@ class RecipeVC: UIViewController {
         
         scrollView.addSubview(recipeImageView)
         scrollView.addSubview(recipeTitle)
-        scrollView.addSubview(userRatingsPickerView)
+        scrollView.addSubview(userRatingsDropDown)
         
         NSLayoutConstraint.activate([
             recipeImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: padding),
@@ -80,10 +80,10 @@ class RecipeVC: UIViewController {
             recipeTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             recipeTitle.heightAnchor.constraint(equalToConstant: 60),
             
-            userRatingsPickerView.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor, constant: padding),
-            userRatingsPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            userRatingsPickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            userRatingsPickerView.heightAnchor.constraint(equalToConstant: 60)
+            userRatingsDropDown.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor, constant: padding),
+            userRatingsDropDown.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            userRatingsDropDown.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            userRatingsDropDown.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
@@ -91,7 +91,7 @@ class RecipeVC: UIViewController {
         scrollView.addSubview(tabulatedView)
     
         NSLayoutConstraint.activate([
-            tabulatedView.topAnchor.constraint(equalTo: userRatingsPickerView.bottomAnchor, constant: padding),
+            tabulatedView.topAnchor.constraint(equalTo: userRatingsDropDown.bottomAnchor, constant: padding),
             tabulatedView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             tabulatedView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             tabulatedView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -padding),
