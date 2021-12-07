@@ -1,14 +1,14 @@
 //
-//  MLAlertContainer.swift
+//  MLSegmentContainerView.swift
 //  Meal-Likey
 //
-//  Created by Jenny Morales on 11/13/21.
+//  Created by Jenny Morales on 12/7/21.
 //
 
 import UIKit
 
-class MLAlertContainer: UIView {
-    
+class MLSegmentContainerView: UIView {
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -20,11 +20,9 @@ class MLAlertContainer: UIView {
     
     private func configure() {
         backgroundColor = .systemBackground
-        layer.cornerRadius = 16
-        layer.borderWidth = 2
-        layer.borderColor = UIColor.white.cgColor
+        layer.cornerRadius = 10
         
         translatesAutoresizingMaskIntoConstraints = false
     }
-    
+
 }

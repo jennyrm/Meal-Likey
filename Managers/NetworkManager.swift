@@ -12,7 +12,7 @@ class NetworkManager {
     static let shared = NetworkManager()
     let cache = NSCache<NSString, UIImage>()
     
-    private let baseURL = "https://tasty.p.rapidapi.com/recipes/detail"
+    private let baseURL = "https://tasty.p.rapidapi.com/recipes/list"
     private let headers = [
         "X-RapidAPI-Host": "tasty.p.rapidapi.com",
         "X-RapidAPI-Key": "da15175627msh92545092087f045p1ac653jsnc254cceec242"
@@ -21,15 +21,16 @@ class NetworkManager {
     //make a private init for singleton so that it can only be initialized here
     private init() {}
     
-    func getRecipes(for recipe: String, completed: @escaping (Result<Recipe, MLError>) -> Void) {
+    func getRecipes(for recipe: String, from recipeValue: Int, completed: @escaping (Result<TopLevelObject, MLError>) -> Void) {
         
         let endpoint = URL(string: baseURL)
         var components = URLComponents(url: endpoint!, resolvingAgainstBaseURL: true)
-        let prefixQuery = URLQueryItem(name: "prefix", value: recipe)
-        components?.queryItems = [prefixQuery]
+        let fromQuery = URLQueryItem(name: "from", value: String(recipeValue))
+        let sizeQuery = URLQueryItem(name: "size", value: "40")
+        let qQuery = URLQueryItem(name: "q", value: recipe)
+        components?.queryItems = [fromQuery, sizeQuery, qQuery]
         
         guard let url = components?.url else { return }
-        print(url)
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -52,12 +53,9 @@ class NetworkManager {
             
             do {
                 let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-            
-                let recipes = try decoder.decode(Recipe.self, from: data)
-                
-                //why no return?
-                completed(.success(recipes))
+                let data = try decoder.decode(TopLevelObject.self, from: data)
+
+                completed(.success(data))
             } catch {
                 completed(.failure(.invalidData))
             }
