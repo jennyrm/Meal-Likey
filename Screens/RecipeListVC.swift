@@ -9,10 +9,10 @@ import UIKit
 
 class RecipeListVC: UIViewController {
 
-    var recipeList = [RecipeList]()
+    var recipeList = [RecipeListItem]()
     
     var collectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<Section, RecipeList>!
+    var dataSource: UICollectionViewDiffableDataSource<Section, RecipeListItem>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,8 +59,8 @@ class RecipeListVC: UIViewController {
         updateData(on: recipeList)
     }
     
-    func updateData(on recipes: [RecipeList]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, RecipeList>()
+    func updateData(on recipes: [RecipeListItem]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, RecipeListItem>()
         snapshot.appendSections([.recipeList])
         snapshot.appendItems(recipes)
         
@@ -73,7 +73,8 @@ extension RecipeListVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recipeVC = RecipeVC()
         let recipeListItem = recipeList[indexPath.item]
-        recipeVC.recipeListItem = recipeListItem
+        let recipe = RecipeController.sharedInstance.createRecipeObject(from: recipeListItem)
+        recipeVC.recipe = recipe
         
         let navController = UINavigationController(rootViewController: recipeVC)
         present(navController, animated: true, completion: nil)
