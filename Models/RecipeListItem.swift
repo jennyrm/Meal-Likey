@@ -1,13 +1,13 @@
 //
-//  RecipeList.swift
+//  RecipeListItem.swift
 //  Meal-Likey
 //
-//  Created by Jenny Morales on 12/2/21.
+//  Created by Jenny Morales on 12/9/21.
 //
 
 import Foundation
 
-struct RecipeList: Codable, Hashable {
+struct RecipeListItem: Codable, Hashable {
     let name: String
     let thumbnailUrl: String?
     let videoUrl: String?

@@ -23,7 +23,7 @@ class RecipeListCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func set(recipeList: RecipeList) {
+    func set(recipeList: RecipeListItem) {
         recipeListLabel.text = recipeList.name
         //jennyrm - 
         recipeListImageView.downloadImage(from: recipeList.thumbnailUrl ?? "")

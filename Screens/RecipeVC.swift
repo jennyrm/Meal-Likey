@@ -10,24 +10,18 @@ import UIKit
 class RecipeVC: UIViewController {
     
     var recipe: Recipe?
-    var recipeListItem: RecipeList?
     
     var scrollView: UIScrollView!
-    var recipeImageView = MLRecipeImageView(frame: .zero)
-    var recipeTitle = MLTitleLabel(textAlignment: .center, fontSize: 26, fontWeight: .bold)
-    var userRatingsLabel = MLTitleLabel(textAlignment: .center, fontSize: 20, fontWeight: .light)
-    var segmentedControl = MLSegmentedControl(frame: .zero)
-    var tabulatedView = MLSegmentContainerView()
-    
-    let padding: CGFloat = 12
+    var headerView = UIView()
+    var tabulatedView = UIView()
+    var itemViews = [UIView]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
         configureScrollView()
-        configureRecipeHeader()
-        configureTabulatedView()
-        configureSegmentedControl()
+        configureUIElements()
+        addSubviewsAndLayoutUI()
     }
     
     func configureViewController() {
@@ -36,12 +30,13 @@ class RecipeVC: UIViewController {
         let favoriteButton = UIBarButtonItem(image: UIImage(systemName: StringConstants.heart), style: .plain, target: self, action: #selector(favoriteButtonTapped))
         navigationItem.rightBarButtonItem = favoriteButton
         
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem = doneButton
     }
     
     func configureScrollView() {
         scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(scrollView)
@@ -54,103 +49,51 @@ class RecipeVC: UIViewController {
         ])
     }
     
-    func configureRecipeHeader() {
-        //jennyrm - FIX
-        if let recipe = recipe {
-            print(recipe)
-            recipeImageView.downloadImage(from: recipe.thumbnailUrl ?? "")
-            recipeTitle.text = recipe.name
-            
-            let userRatingScore = (recipe.userRatings?.score ?? 0).convertToWholeNumber()
-            userRatingsLabel.text = "Rating: \(userRatingScore)%"
-        }
-        if let recipeListItem = recipeListItem {
-            print(recipeListItem)
-            recipeImageView.downloadImage(from: recipeListItem.thumbnailUrl ?? "")
-            recipeTitle.text = recipeListItem.name
-            
-            let userRatingScore = (recipeListItem.userRatings?.score ?? 0).convertToWholeNumber()
-            userRatingsLabel.text = "Rating: \(userRatingScore)%"
-        }
+    func configureUIElements() {
+        guard let recipe = recipe else { return }
         
-        scrollView.addSubview(recipeImageView)
-        scrollView.addSubview(recipeTitle)
-        scrollView.addSubview(userRatingsLabel)
-        
-        NSLayoutConstraint.activate([
-            recipeImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: padding),
-            recipeImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            recipeImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            recipeImageView.heightAnchor.constraint(equalToConstant: 280),
-            
-            recipeTitle.topAnchor.constraint(equalTo: recipeImageView.bottomAnchor),
-            recipeTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            recipeTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            recipeTitle.heightAnchor.constraint(equalToConstant: 70),
-            
-            userRatingsLabel.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor),
-            userRatingsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            userRatingsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            userRatingsLabel.heightAnchor.constraint(equalToConstant: 40)
-        ])
+        self.add(childVC: MLRecipeHeaderVC(recipe: recipe), to: self.headerView)
+        self.add(childVC: MLTabulatedInfoVC(recipe: recipe), to: self.tabulatedView)
     }
     
-    func configureTabulatedView() {
-        scrollView.addSubview(tabulatedView)
-    
+    func addSubviewsAndLayoutUI() {
+        let padding: CGFloat = 20
+        
+        itemViews = [headerView, tabulatedView]
+        
+        for itemView in itemViews {
+            scrollView.addSubview(itemView)
+            itemView.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                itemView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                itemView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
+        }
+        
         NSLayoutConstraint.activate([
-            tabulatedView.topAnchor.constraint(equalTo: userRatingsLabel.bottomAnchor, constant: padding),
-            tabulatedView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            tabulatedView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            tabulatedView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -padding),
+            headerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 500),
+            
+            tabulatedView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
+            tabulatedView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             tabulatedView.heightAnchor.constraint(equalToConstant: 500)
         ])
     }
-
-    func configureSegmentedControl() {
-        tabulatedView.addSubview(segmentedControl)
-        
-        NSLayoutConstraint.activate([
-            segmentedControl.topAnchor.constraint(equalTo: tabulatedView.topAnchor),
-            segmentedControl.leadingAnchor.constraint(equalTo: tabulatedView.leadingAnchor),
-            segmentedControl.trailingAnchor.constraint(equalTo: tabulatedView.trailingAnchor),
-            segmentedControl.heightAnchor.constraint(equalToConstant: 30)
-        ])
-        
-        segmentedControl.addTarget(self, action: #selector(segmentedValueChanged), for: .valueChanged)
-    }
     
-    func configureNutritionTab() {
-        tabulatedView.backgroundColor = .systemPink
-    }
-    
-    func configureIngredientsTab() {
-        tabulatedView.backgroundColor = .systemPink
-    }
-    
-    func configureInstructionsTab() {
-        tabulatedView.backgroundColor = .systemPink
+    func add(childVC: UIViewController, to containerView: UIView) {
+        addChild(childVC)
+        containerView.addSubview(childVC.view)
+        childVC.view.frame = containerView.bounds
+        childVC.didMove(toParent: self)
     }
     
     @objc func favoriteButtonTapped() {
         
     }
     
-    @objc func doneButtonTapped() {
+    @objc func dismissVC() {
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    @objc func segmentedValueChanged(sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            configureNutritionTab()
-        case 1:
-            configureIngredientsTab()
-        case 2:
-            configureInstructionsTab()
-        default:
-            return
-        }
     }
     
 }

@@ -15,7 +15,7 @@ class NetworkManager {
     private let baseURL = "https://tasty.p.rapidapi.com/recipes/list"
     private let headers = [
         "X-RapidAPI-Host": "tasty.p.rapidapi.com",
-        "X-RapidAPI-Key": "da15175627msh92545092087f045p1ac653jsnc254cceec242"
+        "X-RapidAPI-Key": "a811ef2008mshbbf3ee1dc3019edp17f547jsna443ca249c84"
     ]
     
     //make a private init for singleton so that it can only be initialized here
