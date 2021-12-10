@@ -34,14 +34,13 @@ class MLRecipeHeaderVC: UIViewController {
     }
     
     private func configureUIElements() {
-        guard let recipe = recipe else { return }
-        
+        //jennyrm - FIX
         recipeImageView.downloadImage(from: recipe.thumbnailUrl ?? "")
         recipeTitle.text = recipe.name
         
         numServingsLabel.layer.cornerRadius = 10
         numServingsLabel.backgroundColor = .systemGray6
-        numServingsLabel.text = "Servings: \(recipe.numServings ?? 0)"
+        numServingsLabel.text = "Servings: \(recipe.numServings)"
         
         let userRatingScore = (recipe.userRatings?.score ?? 0).convertToWholeNumber()
         let userLikes = recipe.userRatings?.countPositive ?? 0
