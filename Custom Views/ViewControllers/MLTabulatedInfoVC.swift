@@ -27,7 +27,11 @@ class MLTabulatedInfoVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        configureSegmentContainerView()
+        configureSegmentedControl()
+        configureNutritionTab()
+        configureIngredientsTab()
+        configureInstructionsTab()
     }
     
     private func configureSegmentContainerView() {

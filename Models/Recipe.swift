@@ -57,7 +57,7 @@ struct Recipe: Codable, Hashable {
     }
     
 }//End of class
-
+//structs have an automatic hashable synthesizer?
 //extension Recipe: Hashable {
 //    static func == (lhs: Recipe, rhs: Recipe) -> Bool {
 //        return lhs.name == rhs.name && lhs.thumbnailUrl == rhs.thumbnailUrl && lhs.description == rhs.description && lhs.numServings == rhs.numServings && lhs.recipes == rhs.recipes && lhs.userRatings == rhs.userRatings && lhs.nutrition == rhs.nutrition && lhs.sections == rhs.sections && lhs.instructions == rhs.instructions

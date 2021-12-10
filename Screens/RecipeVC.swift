@@ -14,14 +14,14 @@ class RecipeVC: UIViewController {
     var scrollView: UIScrollView!
     var headerView = UIView()
     var tabulatedView = UIView()
-    
-    let padding: CGFloat = 12
+    var itemViews = [UIView]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
         configureScrollView()
-        print(recipe!)
+        configureUIElements()
+        addSubviewsAndLayoutUI()
     }
     
     func configureViewController() {
@@ -30,7 +30,7 @@ class RecipeVC: UIViewController {
         let favoriteButton = UIBarButtonItem(image: UIImage(systemName: StringConstants.heart), style: .plain, target: self, action: #selector(favoriteButtonTapped))
         navigationItem.rightBarButtonItem = favoriteButton
         
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem = doneButton
     }
     
@@ -49,11 +49,50 @@ class RecipeVC: UIViewController {
         ])
     }
     
+    func configureUIElements() {
+        guard let recipe = recipe else { return }
+        
+        self.add(childVC: MLRecipeHeaderVC(recipe: recipe), to: self.headerView)
+        self.add(childVC: MLTabulatedInfoVC(recipe: recipe), to: self.tabulatedView)
+    }
+    
+    func addSubviewsAndLayoutUI() {
+        let padding: CGFloat = 20
+        
+        itemViews = [headerView, tabulatedView]
+        
+        for itemView in itemViews {
+            scrollView.addSubview(itemView)
+            itemView.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                itemView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                itemView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
+        }
+        
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 500),
+            
+            tabulatedView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
+            tabulatedView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            tabulatedView.heightAnchor.constraint(equalToConstant: 500)
+        ])
+    }
+    
+    func add(childVC: UIViewController, to containerView: UIView) {
+        addChild(childVC)
+        containerView.addSubview(childVC.view)
+        childVC.view.frame = containerView.bounds
+        childVC.didMove(toParent: self)
+    }
+    
     @objc func favoriteButtonTapped() {
         
     }
     
-    @objc func doneButtonTapped() {
+    @objc func dismissVC() {
         self.dismiss(animated: true, completion: nil)
     }
     
