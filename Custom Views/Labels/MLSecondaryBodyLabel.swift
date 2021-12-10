@@ -1,14 +1,14 @@
 //
-//  MLTitleLabel.swift
+//  MLSecondaryBodyLabel.swift
 //  Meal-Likey
 //
-//  Created by Jenny Morales on 11/13/21.
+//  Created by Jenny Morales on 12/10/21.
 //
 
 import UIKit
 
-class MLTitleLabel: UILabel {
-    
+class MLSecondaryBodyLabel: UILabel {
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -18,23 +18,31 @@ class MLTitleLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(textAlignment: NSTextAlignment, fontSize: CGFloat, fontWeight: UIFont.Weight) {
+    init(fontSize: CGFloat, fontWeight: UIFont.Weight) {
         super.init(frame: .zero)
-        self.textAlignment = textAlignment
         self.font = UIFont.systemFont(ofSize: fontSize, weight: fontWeight)
         
         configure()
     }
     
     private func configure() {
-        textColor = .label
+        backgroundColor = .systemGray6
+//        font = UIFont.preferredFont(forTextStyle: .body)
+        textColor = .secondaryLabel
+        textAlignment = .center
+        
+        layer.cornerRadius = 10
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.systemGray5.cgColor
+        layer.masksToBounds = true
         
         adjustsFontSizeToFitWidth = true
-        minimumScaleFactor = 0.9
+        minimumScaleFactor = 0.75
         lineBreakMode = .byWordWrapping
         numberOfLines = 0
         
         translatesAutoresizingMaskIntoConstraints = false
     }
-    
+
+
 }

@@ -64,12 +64,24 @@ class MLTabulatedInfoVC: UIViewController {
         
         var nutritionArray = [String]()
         
-        nutrition.calories != nil ? nutritionArray.append("Calories: \(nutrition.calories!)") : nutritionArray.append("Calories: ——")
-        nutrition.fat != nil ? nutritionArray.append("Fat: \(nutrition.fat!)") : nutritionArray.append("Fat: ——")
-        nutrition.carbohydrates != nil ? nutritionArray.append("Carbohydrates: \(nutrition.carbohydrates!)") : nutritionArray.append("Carbohydrates: ——")
-        nutrition.fiber != nil ? nutritionArray.append("Fiber: \(nutrition.fiber!)") : nutritionArray.append("Fiber: ——")
-        nutrition.sugar != nil ? nutritionArray.append("Sugar: \(nutrition.sugar!)") : nutritionArray.append("Sugar: ——")
-        nutrition.protein != nil ? nutritionArray.append("Protein: \(nutrition.protein!)") : nutritionArray.append("Protein: ——")
+        let calories = nutrition.calories != nil ? "Calories: \(nutrition.calories!)" : "Calories: ——"
+        nutritionArray.append(calories)
+        
+        let fat = nutrition.fat != nil ? "Fat: \(nutrition.fat!)" : "Fat: ——"
+        nutritionArray.append(fat)
+        
+        let carbohydrates = nutrition.carbohydrates != nil ? "Carbohydrates: \(nutrition.carbohydrates!)" : "Carbohydrates: ——"
+        nutritionArray.append(carbohydrates)
+        
+        let fiber = nutrition.fiber != nil ? "Fiber: \(nutrition.fiber!)" : "Fiber: ——"
+        nutritionArray.append(fiber)
+       
+        let sugar = nutrition.sugar != nil ? "Sugar: \(nutrition.sugar!)" : "Sugar: ——"
+        nutritionArray.append(sugar)
+        
+        let protein = nutrition.protein != nil ? "Protein: \(nutrition.protein!)" : "Protein: ——"
+        nutritionArray.append(protein)
+
         nutritionArray.append("*Estimated values based on one serving size.")
         
         //        let nutritionString = "\(numServings)\n\n\(calories)\n\n\(fat)\n\n\(carbs)\n\n\(fiber)\n\n\(sugar)\n\n\(protein)"

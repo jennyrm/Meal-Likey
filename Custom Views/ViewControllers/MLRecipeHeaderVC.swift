@@ -13,9 +13,9 @@ class MLRecipeHeaderVC: UIViewController {
     
     let recipeImageView = MLRecipeImageView(frame: .zero)
     let recipeTitle = MLTitleLabel(textAlignment: .center, fontSize: 26, fontWeight: .bold)
-    let numServingsLabel = MLBodyLabel(textAlignment: .center)
-    let userRatingsLabel = MLTitleLabel(textAlignment: .center, fontSize: 20, fontWeight: .semibold)
-    let placeholderLabel = MLBodyLabel(textAlignment: .center)
+    let numServingsLabel = MLSecondaryBodyLabel(fontSize: 14, fontWeight: .light)
+    let userRatingsLabel = MLSecondaryBodyLabel(fontSize: 18, fontWeight: .semibold)
+    let placeholderLabel = MLSecondaryBodyLabel(fontSize: 14, fontWeight: .light)
     
     init(recipe: Recipe) {
         super.init(nibName: nil, bundle: nil)
@@ -34,25 +34,21 @@ class MLRecipeHeaderVC: UIViewController {
     }
     
     private func configureUIElements() {
-        //jennyrm - FIX
-        recipeImageView.downloadImage(from: recipe.thumbnailUrl ?? "")
+        guard let userRatings = recipe.userRatings else { return }
+        
+        recipeImageView.downloadImage(from: recipe.thumbnailUrl!)
+        
         recipeTitle.text = recipe.name
         
-        numServingsLabel.layer.cornerRadius = 10
-        numServingsLabel.backgroundColor = .systemGray6
-        numServingsLabel.text = "Servings: \(recipe.numServings)"
+        let numServings = recipe.numServings != 0 ? "Servings\n \(recipe.numServings!)" : "Servings: —"
+        numServingsLabel.text = numServings
         
-        let userRatingScore = (recipe.userRatings?.score ?? 0).convertToWholeNumber()
-        let userLikes = recipe.userRatings?.countPositive ?? 0
-        let userDislikes = recipe.userRatings?.countNegative ?? 0
+        let userRatingScore = recipe.userRatings?.score != 0 ? "  Rating: \(userRatings.score!.convertToWholeNumber())%  " : "   Rating: ——   "
+        userRatingsLabel.text = userRatingScore
         
-        userRatingsLabel.layer.cornerRadius = 10
-        userRatingsLabel.backgroundColor = .systemGray6
-        userRatingsLabel.text = "Rating: \(userRatingScore)%"
-        
-        placeholderLabel.layer.cornerRadius = 10
-        placeholderLabel.backgroundColor = .systemGray6
-        placeholderLabel.text = "Likes: \(userLikes)\nDislikes: \(userDislikes)"
+        let userLikes = userRatings.score == 0 && recipe.userRatings?.countPositive == 0 ? "Likes: —" : "Likes: \(userRatings.countPositive!)"
+        let userDislikes = userRatings.score == 0 && recipe.userRatings?.countNegative == 0 ? "Dislikes: —" : "Dislikes: \(userRatings.countNegative!)"
+        placeholderLabel.text = "\(userLikes)\n\(userDislikes)"
     }
     
     private func addSubviews() {

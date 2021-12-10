@@ -73,7 +73,7 @@ class RecipeVC: UIViewController {
         
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 500),
+            headerView.heightAnchor.constraint(equalToConstant: 460),
             
             tabulatedView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
             tabulatedView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
