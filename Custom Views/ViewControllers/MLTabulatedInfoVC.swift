@@ -14,8 +14,6 @@ class MLTabulatedInfoVC: UIViewController {
     let segmentContainerView = MLSegmentContainerView()
     let segmentedControl = MLSegmentedControl(frame: .zero)
     
-    let padding: CGFloat = 12
-    
     init(recipe: Recipe) {
         super.init(nibName: nil, bundle: nil)
         self.recipe = recipe
@@ -38,11 +36,10 @@ class MLTabulatedInfoVC: UIViewController {
         view.addSubview(segmentContainerView)
         
         NSLayoutConstraint.activate([
-            segmentContainerView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: padding),
-            segmentContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            segmentContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            segmentContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -padding),
-            segmentContainerView.heightAnchor.constraint(equalToConstant: 500)
+            segmentContainerView.topAnchor.constraint(equalTo: view.topAnchor),
+            segmentContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            segmentContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            segmentContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     

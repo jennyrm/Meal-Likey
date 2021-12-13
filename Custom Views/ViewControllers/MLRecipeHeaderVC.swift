@@ -61,35 +61,29 @@ class MLRecipeHeaderVC: UIViewController {
     
     private func layoutUI() {
         let padding: CGFloat = 8
-        let itemHeight: CGFloat = 60
         
         NSLayoutConstraint.activate([
             recipeImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            recipeImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            recipeImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            recipeImageView.heightAnchor.constraint(equalToConstant: 280),
+            recipeImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            recipeImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             recipeTitle.topAnchor.constraint(equalTo: recipeImageView.bottomAnchor),
-            recipeTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            recipeTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            recipeTitle.heightAnchor.constraint(equalToConstant: 70),
+            recipeTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            recipeTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            numServingsLabel.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor, constant: padding),
-            numServingsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            numServingsLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -padding),
-            numServingsLabel.heightAnchor.constraint(equalToConstant: itemHeight),
+            numServingsLabel.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor),
+            numServingsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            numServingsLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             userRatingsLabel.centerXAnchor.constraint(equalTo: recipeTitle.centerXAnchor),
-            userRatingsLabel.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor, constant: padding),
-            userRatingsLabel.leadingAnchor.constraint(equalTo: numServingsLabel.trailingAnchor, constant: padding / 2),
-            userRatingsLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -padding),
-            userRatingsLabel.heightAnchor.constraint(equalToConstant: itemHeight),
+            userRatingsLabel.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor),
+            userRatingsLabel.leadingAnchor.constraint(equalTo: numServingsLabel.trailingAnchor),
+            userRatingsLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            placeholderLabel.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor, constant: padding),
-            placeholderLabel.leadingAnchor.constraint(equalTo: userRatingsLabel.trailingAnchor, constant: padding / 2),
-            placeholderLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            placeholderLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -padding),
-            placeholderLabel.heightAnchor.constraint(equalToConstant: itemHeight)
+            placeholderLabel.topAnchor.constraint(equalTo: recipeTitle.bottomAnchor),
+            placeholderLabel.leadingAnchor.constraint(equalTo: userRatingsLabel.trailingAnchor),
+            placeholderLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            placeholderLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 

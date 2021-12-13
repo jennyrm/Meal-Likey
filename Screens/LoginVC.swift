@@ -1,13 +1,13 @@
 //
-//  MealtimesVC.swift
+//  LoginVC.swift
 //  Meal-Likey
 //
-//  Created by Jenny Morales on 11/13/21.
+//  Created by Jenny Morales on 12/13/21.
 //
 
 import UIKit
 
-class MealtimesVC: UIViewController {
+class LoginVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -12,7 +12,7 @@ class MLTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewControllers = [createSearchNC(), createFavoritesNC(), createMealtimeNC()]
+        viewControllers = [createSearchNC(), createFavoritesNC(), createRecipeVC()]
     }
     
     private func createSearchNC() -> UINavigationController {
@@ -31,12 +31,12 @@ class MLTabBarController: UITabBarController {
         return UINavigationController(rootViewController: favoritesVC)
     }
     
-    private func createMealtimeNC() -> UINavigationController {
-        let mealTimesVC = MealtimesVC()
-        mealTimesVC.title = "Meal Times"
-        mealTimesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
-        
-        return UINavigationController(rootViewController: mealTimesVC)
+    private func createRecipeVC() -> UINavigationController {
+        let createRecipeVC = CreateRecipeVC()
+        createRecipeVC.title = "Meal Times"
+        createRecipeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
+
+        return UINavigationController(rootViewController: createRecipeVC)
     }
 
 }

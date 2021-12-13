@@ -57,7 +57,7 @@ class RecipeVC: UIViewController {
     }
     
     func addSubviewsAndLayoutUI() {
-        let padding: CGFloat = 20
+        let padding: CGFloat = 12
         
         itemViews = [headerView, tabulatedView]
         
@@ -66,18 +66,18 @@ class RecipeVC: UIViewController {
             itemView.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
-                itemView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                itemView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+                itemView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+                itemView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding)
             ])
         }
         
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 460),
+            headerView.heightAnchor.constraint(equalToConstant: 400),
             
             tabulatedView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
             tabulatedView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            tabulatedView.heightAnchor.constraint(equalToConstant: 500)
+            tabulatedView.heightAnchor.constraint(equalToConstant: 500),
         ])
     }
     
@@ -89,7 +89,9 @@ class RecipeVC: UIViewController {
     }
     
     @objc func favoriteButtonTapped() {
+        guard let recipe = recipe else { return }
         
+        UserController.sharedInstance.addToFavorites(recipe)
     }
     
     @objc func dismissVC() {

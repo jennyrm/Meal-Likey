@@ -15,8 +15,6 @@ class MLSegmentContainerView: UIView {
     
     var scrollView: UIScrollView!
     let contentLabel = MLBodyLabel(textAlignment: .left)
-    
-    let padding: CGFloat = 12
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,8 +29,8 @@ class MLSegmentContainerView: UIView {
     
     private func configureView() {
         backgroundColor = .systemBackground
-//        layer.borderWidth = 1
-//        layer.borderColor = UIColor.systemGray6.cgColor
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.systemGray6.cgColor
         layer.cornerRadius = 10
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -54,6 +52,8 @@ class MLSegmentContainerView: UIView {
     }
     
     private func configureContentLabel() {
+        let padding: CGFloat = 12
+        
 //        contentLabel.backgroundColor = .systemGray6
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -61,10 +61,10 @@ class MLSegmentContainerView: UIView {
         
         NSLayoutConstraint.activate([
             //segmented control is 30pts tall and at the top of the view
-            contentLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 42),
-            contentLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
-            contentLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
-            contentLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -padding)
+            contentLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: padding * 2),
+            contentLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            contentLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            contentLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
     }
     

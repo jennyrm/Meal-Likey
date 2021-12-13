@@ -26,7 +26,7 @@ class MLSecondaryBodyLabel: UILabel {
     }
     
     private func configure() {
-        backgroundColor = .systemGray6
+        backgroundColor = .systemGreen
 //        font = UIFont.preferredFont(forTextStyle: .body)
         textColor = .secondaryLabel
         textAlignment = .center
@@ -43,6 +43,5 @@ class MLSecondaryBodyLabel: UILabel {
         
         translatesAutoresizingMaskIntoConstraints = false
     }
-
 
 }
