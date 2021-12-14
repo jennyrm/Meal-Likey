@@ -9,9 +9,8 @@ import UIKit
 
 class RecipeVC: UIViewController {
     
-    var recipe: Recipe!
-    
-    var favoriteButton: UIBarButtonItem!
+    var recipe: Recipe?
+
     var scrollView: UIScrollView!
     var headerView = UIView()
     var tabulatedView = UIView()
@@ -40,9 +39,9 @@ class RecipeVC: UIViewController {
 //            recipe.isFavorited = true
 //        }
 //        
-        let toggleFavoriteButton = recipe.isFavorited == true ? StringConstants.heartFilled : StringConstants.heart
+        let favoriteButtonIcon = recipe.isFavorited == true ? SFSymbols.heartFilled : SFSymbols.heart
         
-        favoriteButton = UIBarButtonItem(image: UIImage(systemName: toggleFavoriteButton), style: .plain, target: self, action: #selector(favoriteButtonTapped))
+        let favoriteButton = UIBarButtonItem(image: UIImage(systemName: favoriteButtonIcon), style: .plain, target: self, action: #selector(favoriteButtonTapped))
         navigationItem.rightBarButtonItem = favoriteButton
     }
     
@@ -116,7 +115,6 @@ class RecipeVC: UIViewController {
     
     @objc func dismissVC() {
         self.dismiss(animated: true, completion: nil)
-        PersistenceManager.shared.saveUserData()
     }
     
 }

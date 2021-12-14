@@ -57,7 +57,7 @@ class MLTabulatedInfoVC: UIViewController {
     }
     
     private func configureNutritionTab() {
-        guard let nutrition = recipe.nutrition else { return }
+        let nutrition = recipe.nutrition
         
         var nutritionArray = [String]()
         
@@ -88,7 +88,7 @@ class MLTabulatedInfoVC: UIViewController {
     }
     
     private func configureIngredientsTab() {
-        guard let sections = recipe.sections else { return }
+        let sections = recipe.sections
         
         let recipeComponents = sections.map { $0.components }
         let ingredientsArray = recipeComponents.reduce([]) { $0 + $1 }
@@ -98,7 +98,7 @@ class MLTabulatedInfoVC: UIViewController {
     }
     
     private func configureInstructionsTab() {
-        guard let instructions = recipe.instructions else { return }
+        let instructions = recipe.instructions
         
         let instructionsString = instructions.map { $0.displayText }.reduce("") { $0 + "\n" + $1 + "\n" }
         

@@ -16,11 +16,13 @@ class PersistenceManager {
     func saveUserData() {
         let currentUser = UserController.shared.currentUser 
                 
-        let ref = db.collection(StringConstants.Users).document(currentUser.userID)
-        ref.setData(["username" : currentUser.username,
-//                      "favoritedRecipes" : currentUser.favoritedRecipes,
-//                      "createdRecipes" : currentUser.createdRecipes
-                      ])
+        let usersRef = db.collection(StringConstants.Users).document(currentUser.userID)
+        usersRef.setData(["username" : currentUser.username,
+                             "favoritedRecipes" : [],
+                             "createdRecipes" : []
+                            ])
+        
+        let favoritesRef = db.collection(StringConstants.Users).document(currentUser.userID).collection(StringConstants.Favorites)
     }
     
 }

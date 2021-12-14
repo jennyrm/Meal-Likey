@@ -34,20 +34,24 @@ class MLRecipeHeaderVC: UIViewController {
     }
     
     private func configureUIElements() {
-        guard let userRatings = recipe.userRatings else { return }
+        let recipeImage = recipe.thumbnailUrl
+        let recipeName = recipe.name
+        let numServings = recipe.numServings
+        let userRatings = recipe.userRatings
         
-        recipeImageView.downloadImage(from: recipe.thumbnailUrl!)
+        //jennyrm - FIX
+        recipeImageView.downloadImage(from: recipeImage)
         
-        recipeTitle.text = recipe.name
+        recipeTitle.text = recipeName
         
-        let numServings = recipe.numServings != 0 ? "Servings\n \(recipe.numServings!)" : "Servings: —"
-        numServingsLabel.text = numServings
+        let servings = numServings != 0 ? "Servings\n \(numServings)" : "Servings: —"
+        numServingsLabel.text = servings
         
-        let userRatingScore = recipe.userRatings?.score != 0 ? "  Rating: \(userRatings.score!.convertToWholeNumber())%  " : "   Rating: ——   "
+        let userRatingScore = userRatings.score != nil ? "  Rating: \(userRatings.score!.convertToWholeNumber())%  " : "   Rating: ——   "
         userRatingsLabel.text = userRatingScore
         
-        let userLikes = userRatings.score == 0 && recipe.userRatings?.countPositive == 0 ? "Likes: —" : "Likes: \(userRatings.countPositive!)"
-        let userDislikes = userRatings.score == 0 && recipe.userRatings?.countNegative == 0 ? "Dislikes: —" : "Dislikes: \(userRatings.countNegative!)"
+        let userLikes = userRatings.countPositive != nil ? "Likes: \(userRatings.countPositive!)" : "Likes: —"
+        let userDislikes = userRatings.countNegative != nil ? "Dislikes: \(userRatings.countNegative!)" : "Dislikes: —"
         placeholderLabel.text = "\(userLikes)\n\(userDislikes)"
     }
     

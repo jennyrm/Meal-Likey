@@ -25,7 +25,7 @@ class RecipeListCell: UICollectionViewCell {
     
     func set(recipeList: RecipeListItem) {
         recipeListLabel.text = recipeList.name
-        //jennyrm - 
+        //jennyrm - FIX
         recipeListImageView.downloadImage(from: recipeList.thumbnailUrl ?? "")
     }
     
