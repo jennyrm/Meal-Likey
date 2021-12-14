@@ -60,7 +60,7 @@ class MLRecipeHeaderVC: UIViewController {
     }
     
     private func layoutUI() {
-        let padding: CGFloat = 8
+//        let padding: CGFloat = 8
         
         NSLayoutConstraint.activate([
             recipeImageView.topAnchor.constraint(equalTo: view.topAnchor),

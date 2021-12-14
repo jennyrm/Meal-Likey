@@ -9,25 +9,29 @@ import Foundation
 
 class UserController {
     
-    static let sharedInstance = UserController()
+    static let shared = UserController()
     
     let currentUser = User(username: "Jenny")
     
     func isAlreadyFavorited(_ recipe: Recipe) -> Bool {
-        return currentUser.favoriteRecipes.contains(recipe)
+        return currentUser.favoritedRecipes.contains(recipe)
     }
     
     func addToFavorites(_ recipe: Recipe) {
 //        guard let currentUser = currentUser else { return }
-        currentUser.favoriteRecipes.append(recipe)
-        print(currentUser.favoriteRecipes)
+        currentUser.favoritedRecipes.append(recipe)
+        print(currentUser.favoritedRecipes)
     }
     
     func removeFromFavorites(_ recipe: Recipe) {
-        if let recipeIndex = currentUser.favoriteRecipes.firstIndex(where: { $0 == recipe }) {
-            currentUser.favoriteRecipes.remove(at: recipeIndex)
-            print(currentUser.favoriteRecipes)
+        if let recipeIndex = currentUser.favoritedRecipes.firstIndex(where: { $0 == recipe }) {
+            currentUser.favoritedRecipes.remove(at: recipeIndex)
+            print(currentUser.favoritedRecipes)
         }
+    }
+    
+    func fetchUserFavorites() -> [Recipe] {
+        return currentUser.favoritedRecipes
     }
     
 }

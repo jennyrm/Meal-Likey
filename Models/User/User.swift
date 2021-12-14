@@ -10,13 +10,13 @@ import UIKit
 class User: Codable {
     
     let username: String
-    var favoriteRecipes: [Recipe]
+    var favoritedRecipes: [Recipe]
     var createdRecipes: [Recipe]
     let userID: String
     
     init(username: String, favoriteRecipes: [Recipe] = [], createdRecipes: [Recipe] = [], userID: String = UUID().uuidString) {
         self.username = username
-        self.favoriteRecipes = favoriteRecipes
+        self.favoritedRecipes = favoriteRecipes
         self.createdRecipes = createdRecipes
         self.userID = userID
     }

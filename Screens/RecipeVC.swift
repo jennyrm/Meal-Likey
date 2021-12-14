@@ -103,11 +103,11 @@ class RecipeVC: UIViewController {
     @objc func favoriteButtonTapped() {
         if recipe?.isFavorited == false {
             recipe?.isFavorited = true
-            UserController.sharedInstance.addToFavorites(recipe!)
+            UserController.shared.addToFavorites(recipe!)
             
             configureFavoriteButton()
         } else {
-            UserController.sharedInstance.removeFromFavorites(recipe!)
+            UserController.shared.removeFromFavorites(recipe!)
             recipe?.isFavorited = false
             
             configureFavoriteButton()
@@ -116,6 +116,7 @@ class RecipeVC: UIViewController {
     
     @objc func dismissVC() {
         self.dismiss(animated: true, completion: nil)
+        PersistenceManager.shared.saveUserData()
     }
     
 }

@@ -12,4 +12,5 @@ enum StringConstants {
     //case vs static let
     static let heart = "heart"
     static let heartFilled = "heart.fill"
+    static let Users = "Users"
 }

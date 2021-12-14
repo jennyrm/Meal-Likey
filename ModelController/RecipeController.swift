@@ -9,7 +9,7 @@ import Foundation
 
 class RecipeController {
     
-    static let sharedInstance = RecipeController()
+    static let shared = RecipeController()
     
     func createRecipeObject(from recipeListItem: RecipeListItem) -> Recipe {
         let recipe = Recipe(
