@@ -9,8 +9,9 @@ import UIKit
 
 class RecipeVC: UIViewController {
     
-    var recipe: Recipe?
+    var recipe: Recipe!
     
+    var favoriteButton: UIBarButtonItem!
     var scrollView: UIScrollView!
     var headerView = UIView()
     var tabulatedView = UIView()
@@ -19,6 +20,7 @@ class RecipeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
+        configureFavoriteButton()
         configureScrollView()
         configureUIElements()
         addSubviewsAndLayoutUI()
@@ -27,11 +29,21 @@ class RecipeVC: UIViewController {
     func configureViewController() {
         view.backgroundColor = .systemBackground
         
-        let favoriteButton = UIBarButtonItem(image: UIImage(systemName: StringConstants.heart), style: .plain, target: self, action: #selector(favoriteButtonTapped))
-        navigationItem.rightBarButtonItem = favoriteButton
-        
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem = doneButton
+    }
+    
+    func configureFavoriteButton() {
+        guard let recipe = recipe else { return }
+        
+//        if UserController.sharedInstance.isAlreadyFavorited(recipe) {
+//            recipe.isFavorited = true
+//        }
+//        
+        let toggleFavoriteButton = recipe.isFavorited == true ? StringConstants.heartFilled : StringConstants.heart
+        
+        favoriteButton = UIBarButtonItem(image: UIImage(systemName: toggleFavoriteButton), style: .plain, target: self, action: #selector(favoriteButtonTapped))
+        navigationItem.rightBarButtonItem = favoriteButton
     }
     
     func configureScrollView() {
@@ -89,9 +101,17 @@ class RecipeVC: UIViewController {
     }
     
     @objc func favoriteButtonTapped() {
-        guard let recipe = recipe else { return }
-        
-        UserController.sharedInstance.addToFavorites(recipe)
+        if recipe?.isFavorited == false {
+            recipe?.isFavorited = true
+            UserController.sharedInstance.addToFavorites(recipe!)
+            
+            configureFavoriteButton()
+        } else {
+            UserController.sharedInstance.removeFromFavorites(recipe!)
+            recipe?.isFavorited = false
+            
+            configureFavoriteButton()
+        }
     }
     
     @objc func dismissVC() {

@@ -17,6 +17,7 @@ class FavoritesListVC: UIViewController {
         super.viewDidLoad()
         configureViewController()
         configureTableView()
+        fetchFavorites()
     }
     
     func configureViewController() {
@@ -36,6 +37,10 @@ class FavoritesListVC: UIViewController {
         tableView.dataSource = self
         
         tableView.register(FavoriteCell.self, forCellReuseIdentifier: FavoriteCell.reuseID)
+    }
+    
+    func fetchFavorites() {
+        
     }
 
 }//End of class

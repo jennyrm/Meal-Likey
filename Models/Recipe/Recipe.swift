@@ -25,9 +25,10 @@ struct Recipe: Codable, Hashable {
     var nutrition: Nutrition?
     var sections: [RecipeComponent]?
     var instructions: [Instruction]?
+    var isFavorited: Bool
     
     private enum CodingKeys: String, CodingKey {
-        case name = "name", thumbnailUrl = "thumbnail_url", description = "description", numServings = "num_servings", recipes = "recipes", userRatings = "user_ratings", nutrition = "nutrition", sections = "sections", instructions = "instructions"
+        case name = "name", thumbnailUrl = "thumbnail_url", description = "description", numServings = "num_servings", recipes = "recipes", userRatings = "user_ratings", nutrition = "nutrition", sections = "sections", instructions = "instructions", isFavorited = "isFavorited"
     }
     
     //some json objects do not have a recipes property, so this is needed to check against that
@@ -42,9 +43,10 @@ struct Recipe: Codable, Hashable {
         nutrition = try container.decodeIfPresent(Nutrition.self, forKey: .nutrition)
         sections = try container.decodeIfPresent(Array.self, forKey: .sections)
         instructions = try container.decodeIfPresent(Array.self, forKey: .instructions)
+        isFavorited = try container.decodeIfPresent(Bool.self, forKey: .isFavorited) ?? false
     }
     
-    init(name: String, thumbnailUrl: String, description: String, numServings: Int, recipes: [RecipeListItem]?, userRatings: UserRating, nutrition: Nutrition, sections: [RecipeComponent], instructions: [Instruction]) {
+    init(name: String, thumbnailUrl: String, description: String, numServings: Int, recipes: [RecipeListItem]?, userRatings: UserRating, nutrition: Nutrition, sections: [RecipeComponent], instructions: [Instruction], isFavorited: Bool = false) {
         self.name = name
         self.thumbnailUrl = thumbnailUrl
         self.description = description
@@ -54,6 +56,7 @@ struct Recipe: Codable, Hashable {
         self.nutrition = nutrition
         self.sections = sections
         self.instructions = instructions
+        self.isFavorited = isFavorited
     }
     
 }//End of class

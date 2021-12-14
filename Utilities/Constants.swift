@@ -11,4 +11,5 @@ enum StringConstants {
     //jennyrm - FIX
     //case vs static let
     static let heart = "heart"
+    static let heartFilled = "heart.fill"
 }
