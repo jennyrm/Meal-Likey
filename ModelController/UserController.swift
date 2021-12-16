@@ -21,6 +21,7 @@ class UserController {
 //        guard let currentUser = currentUser else { return }
         currentUser.favoritedRecipes.append(recipe)
         print(currentUser.favoritedRecipes)
+        PersistenceManager.shared.saveUserData()
     }
     
     func removeFromFavorites(_ recipe: Recipe) {

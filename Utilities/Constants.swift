@@ -9,7 +9,7 @@ import Foundation
 
 enum StringConstants {
     static let Users = "Users"
-    static let Favorites = "Favorites"
+    static let Recipes = "Recipes"
 }
 
 enum SFSymbols {
