@@ -10,7 +10,7 @@ import UIKit
 class RecipeVC: UIViewController {
     
     var recipe: Recipe?
-    
+
     var scrollView: UIScrollView!
     var headerView = UIView()
     var tabulatedView = UIView()
@@ -19,6 +19,7 @@ class RecipeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
+        configureFavoriteButton()
         configureScrollView()
         configureUIElements()
         addSubviewsAndLayoutUI()
@@ -27,11 +28,21 @@ class RecipeVC: UIViewController {
     func configureViewController() {
         view.backgroundColor = .systemBackground
         
-        let favoriteButton = UIBarButtonItem(image: UIImage(systemName: StringConstants.heart), style: .plain, target: self, action: #selector(favoriteButtonTapped))
-        navigationItem.rightBarButtonItem = favoriteButton
-        
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem = doneButton
+    }
+    
+    func configureFavoriteButton() {
+        guard let recipe = recipe else { return }
+        
+//        if UserController.sharedInstance.isAlreadyFavorited(recipe) {
+//            recipe.isFavorited = true
+//        }
+//        
+        let favoriteButtonIcon = recipe.isFavorited == true ? SFSymbols.heartFilled : SFSymbols.heart
+        
+        let favoriteButton = UIBarButtonItem(image: UIImage(systemName: favoriteButtonIcon), style: .plain, target: self, action: #selector(favoriteButtonTapped))
+        navigationItem.rightBarButtonItem = favoriteButton
     }
     
     func configureScrollView() {
@@ -57,7 +68,7 @@ class RecipeVC: UIViewController {
     }
     
     func addSubviewsAndLayoutUI() {
-        let padding: CGFloat = 20
+        let padding: CGFloat = 12
         
         itemViews = [headerView, tabulatedView]
         
@@ -66,18 +77,18 @@ class RecipeVC: UIViewController {
             itemView.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
-                itemView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                itemView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+                itemView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+                itemView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding)
             ])
         }
         
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 500),
+            headerView.heightAnchor.constraint(equalToConstant: 400),
             
             tabulatedView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
             tabulatedView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            tabulatedView.heightAnchor.constraint(equalToConstant: 500)
+            tabulatedView.heightAnchor.constraint(equalToConstant: 500),
         ])
     }
     
@@ -89,7 +100,17 @@ class RecipeVC: UIViewController {
     }
     
     @objc func favoriteButtonTapped() {
-        
+        if recipe?.isFavorited == false {
+            recipe?.isFavorited = true
+            UserController.shared.addToFavorites(recipe!)
+            
+            configureFavoriteButton()
+        } else {
+            UserController.shared.removeFromFavorites(recipe!)
+            recipe?.isFavorited = false
+            
+            configureFavoriteButton()
+        }
     }
     
     @objc func dismissVC() {

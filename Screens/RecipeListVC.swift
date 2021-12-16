@@ -73,7 +73,7 @@ extension RecipeListVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recipeVC = RecipeVC()
         let recipeListItem = recipeList[indexPath.item]
-        let recipe = RecipeController.sharedInstance.createRecipeObject(from: recipeListItem)
+        let recipe = RecipeController.shared.createRecipeObject(from: recipeListItem)
         recipeVC.recipe = recipe
         
         let navController = UINavigationController(rootViewController: recipeVC)

@@ -9,11 +9,20 @@ import Foundation
 
 class RecipeController {
     
-    static let sharedInstance = RecipeController()
+    static let shared = RecipeController()
     
     func createRecipeObject(from recipeListItem: RecipeListItem) -> Recipe {
-        //jennyrm - FIX
-        let recipe = Recipe(name: recipeListItem.name, thumbnailUrl: recipeListItem.thumbnailUrl! , description: recipeListItem.description ?? "", numServings: recipeListItem.numServings ?? 0, recipes: nil, userRatings: recipeListItem.userRatings!, nutrition: recipeListItem.nutrition!, sections: recipeListItem.sections ?? [], instructions: recipeListItem.instructions ?? [])
+        let recipe = Recipe(
+                                name: recipeListItem.name,
+                                thumbnailUrl: recipeListItem.thumbnailUrl ?? "",
+                                description: recipeListItem.description ?? "",
+                                numServings: recipeListItem.numServings ?? 0,
+                                recipes: nil,
+                                userRatings: recipeListItem.userRatings ?? UserRating(score: nil, countPositive: nil, countNegative: nil),
+                                nutrition: recipeListItem.nutrition ?? Nutrition(carbohydrates: nil, fiber: nil, protein: nil, fat: nil, calories: nil, sugar: nil),
+                                sections: recipeListItem.sections ?? [],
+                                instructions: recipeListItem.instructions ?? []
+                               )
         
         return recipe
     }

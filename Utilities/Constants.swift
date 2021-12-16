@@ -8,7 +8,18 @@
 import Foundation
 
 enum StringConstants {
-    //jennyrm - FIX
-    //case vs static let
-    static let heart = "heart"
+    static let Users = "Users"
+    static let Recipes = "Recipes"
 }
+
+enum SFSymbols {
+    static let heart = "heart"
+    static let heartFilled = "heart.fill"
+}
+
+//enum is hashable by default
+enum Section {
+    case recipes
+    case recipeList
+}
+

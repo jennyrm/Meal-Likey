@@ -14,8 +14,6 @@ class MLTabulatedInfoVC: UIViewController {
     let segmentContainerView = MLSegmentContainerView()
     let segmentedControl = MLSegmentedControl(frame: .zero)
     
-    let padding: CGFloat = 12
-    
     init(recipe: Recipe) {
         super.init(nibName: nil, bundle: nil)
         self.recipe = recipe
@@ -24,7 +22,7 @@ class MLTabulatedInfoVC: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSegmentContainerView()
@@ -38,11 +36,10 @@ class MLTabulatedInfoVC: UIViewController {
         view.addSubview(segmentContainerView)
         
         NSLayoutConstraint.activate([
-            segmentContainerView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: padding),
-            segmentContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            segmentContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            segmentContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -padding),
-            segmentContainerView.heightAnchor.constraint(equalToConstant: 500)
+            segmentContainerView.topAnchor.constraint(equalTo: view.topAnchor),
+            segmentContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            segmentContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            segmentContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -60,80 +57,50 @@ class MLTabulatedInfoVC: UIViewController {
     }
     
     private func configureNutritionTab() {
-        if let recipe = recipe?.nutrition {
-            getNutrition(for: recipe)
-        }
-    }
-    
-    private func getNutrition(for recipeType: Nutrition) {
+        let nutrition = recipe.nutrition
+        
         var nutritionArray = [String]()
         
-        if let calories = recipeType.calories {
-            nutritionArray.append("Calories: \(calories)")
-        } else {
-            nutritionArray.append("Calories: —")
-        }
+        let calories = nutrition.calories != nil ? "Calories: \(nutrition.calories!)" : "Calories: ——"
+        nutritionArray.append(calories)
         
-        if let fat = recipeType.fat {
-            nutritionArray.append("Fat: \(fat)")
-        } else {
-            nutritionArray.append("Fat: —")
-        }
+        let fat = nutrition.fat != nil ? "Fat: \(nutrition.fat!)" : "Fat: ——"
+        nutritionArray.append(fat)
         
-        if let carbohydrates = recipeType.carbohydrates {
-            nutritionArray.append("Carbohydrates: \(carbohydrates)")
-        } else {
-            nutritionArray.append("Carbohydrates: —")
-        }
+        let carbohydrates = nutrition.carbohydrates != nil ? "Carbohydrates: \(nutrition.carbohydrates!)" : "Carbohydrates: ——"
+        nutritionArray.append(carbohydrates)
         
-        if let fiber = recipeType.fiber {
-            nutritionArray.append("Fiber: \(fiber)")
-        } else {
-            nutritionArray.append("Fiber: —")
-        }
+        let fiber = nutrition.fiber != nil ? "Fiber: \(nutrition.fiber!)" : "Fiber: ——"
+        nutritionArray.append(fiber)
+       
+        let sugar = nutrition.sugar != nil ? "Sugar: \(nutrition.sugar!)" : "Sugar: ——"
+        nutritionArray.append(sugar)
         
-        if let sugar = recipeType.sugar {
-            nutritionArray.append("Sugar: \(sugar)")
-        } else {
-            nutritionArray.append("Sugar: —")
-        }
-        
-        if let protein = recipeType.protein {
-            nutritionArray.append("Protein: \(protein)")
-        } else {
-            nutritionArray.append("Protein: —")
-        }
-        
+        let protein = nutrition.protein != nil ? "Protein: \(nutrition.protein!)" : "Protein: ——"
+        nutritionArray.append(protein)
+
         nutritionArray.append("*Estimated values based on one serving size.")
         
-//        let nutritionString = "\(numServings)\n\n\(calories)\n\n\(fat)\n\n\(carbs)\n\n\(fiber)\n\n\(sugar)\n\n\(protein)"
+        //        let nutritionString = "\(numServings)\n\n\(calories)\n\n\(fat)\n\n\(carbs)\n\n\(fiber)\n\n\(sugar)\n\n\(protein)"
         let nutritionString = nutritionArray.reduce("") { $0 + "\n" + $1 + "\n"}
         
         segmentContainerView.set(itemInfoType: .nutrition, with: nutritionString)
     }
     
     private func configureIngredientsTab() {
-        if let recipe = recipe?.sections {
-            getIngredients(for: recipe)
-        }
-    }
-    
-    private func getIngredients(for recipeType: [RecipeComponent]) {
-        let recipeComponents = recipeType.map { $0.components }
+        let sections = recipe.sections
+        
+        let recipeComponents = sections.map { $0.components }
         let ingredientsArray = recipeComponents.reduce([]) { $0 + $1 }
         let ingredientsString = ingredientsArray.map { $0.rawText }.reduce("") { $0 + "\n" + $1 + "\n" }
         
         segmentContainerView.set(itemInfoType: .ingredients, with: ingredientsString)
     }
     
-    func configureInstructionsTab() {
-        if let recipe = recipe?.instructions {
-            getInstructions(for: recipe)
-        }
-    }
-    
-    private func getInstructions(for recipeType: [Instruction]) {
-        let instructionsString = recipeType.map { $0.displayText }.reduce("") { $0 + "\n" + $1 + "\n" }
+    private func configureInstructionsTab() {
+        let instructions = recipe.instructions
+        
+        let instructionsString = instructions.map { $0.displayText }.reduce("") { $0 + "\n" + $1 + "\n" }
         
         segmentContainerView.set(itemInfoType: .instructions, with: instructionsString)
     }
@@ -150,5 +117,5 @@ class MLTabulatedInfoVC: UIViewController {
             return
         }
     }
-
+    
 }
