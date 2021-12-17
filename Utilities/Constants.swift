@@ -8,8 +8,8 @@
 import Foundation
 
 enum StringConstants {
-    static let Users = "Users"
-    static let Recipes = "Recipes"
+    static let users = "users"
+    static let recipes = "recipes"
 }
 
 enum SFSymbols {
