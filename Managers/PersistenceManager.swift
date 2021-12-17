@@ -22,7 +22,7 @@ class PersistenceManager {
             createRecipeObjectForDB(recipe)
         }
         
-        let usersRef = db.collection(StringConstants.Users).document(currentUser.userID)
+        let usersRef = db.collection(StringConstants.users).document(currentUser.userID)
         usersRef.setData(["username" : currentUser.username,
                              "userID" : currentUser.userID,
                              "favoritedRecipes" : favoritedRecipes
@@ -56,7 +56,7 @@ class PersistenceManager {
             instructionsArr.append(instruction.displayText)
         }
         
-        let favoritesRef = db.collection(StringConstants.Recipes).document(recipe.recipeID)
+        let favoritesRef = db.collection(StringConstants.recipes).document(recipe.recipeID)
         favoritesRef.setData(["name" : recipe.name,
                                  "thumbnailUrl" : recipe.thumbnailUrl,
                                  "numServings" : recipe.numServings,
@@ -69,7 +69,7 @@ class PersistenceManager {
     }
     
     func fetchUser(with userID: String) {
-        db.collection(StringConstants.Users).whereField("userID", isEqualTo: userID)
+        db.collection(StringConstants.users).whereField("userID", isEqualTo: userID)
     }
     
     func fetchRecipe(_ recipeID: String) {
