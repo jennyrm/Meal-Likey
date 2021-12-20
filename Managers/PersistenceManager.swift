@@ -25,7 +25,8 @@ class PersistenceManager {
         let usersRef = db.collection(StringConstants.users).document(currentUser.userID)
         usersRef.setData(["username" : currentUser.username,
                              "userID" : currentUser.userID,
-                             "favoritedRecipes" : favoritedRecipes
+                             "favoritedRecipes" : favoritedRecipes,
+                             "createdRecipes" : [""]
                              ])
     }
     
@@ -64,16 +65,82 @@ class PersistenceManager {
                                  "nutrition" : nutritionDict,
                                  "ingredients" : ingredientsArr,
                                  "instructions" : instructionsArr,
-                                 "isFavorited" : recipe.isFavorited
+                                 "isFavorited" : recipe.isFavorited,
                                  ])
     }
     
-    func fetchUser(with userID: String) {
-        db.collection(StringConstants.users).whereField("userID", isEqualTo: userID)
+    func fetchUser() {
+        db.collection(StringConstants.users).whereField("userID", isEqualTo: currentUser.userID)
+            .getDocuments { querySnapshot, error in
+                if let error = error {
+                    print(error)
+                } else {
+                    for doc in querySnapshot!.documents {
+                        let userData = doc.data()
+                        let username = userData["username"] as! String
+                        let favorited = userData["favoritedRecipes"] as! [String]
+                        let created = userData["createdRecipes"] as! [String]
+                        let userID = userData["userID"] as! String
+                        
+                        let favoritedRecipes = self.fetchRecipes(favorited)
+                        let createdRecipes = self.fetchRecipes(created)
+                        
+                        let user = User(username: username, favoritedRecipes: favoritedRecipes, createdRecipes: createdRecipes, userID: userID)
+                        print("user:", user)
+                    }
+                }
+            }
     }
     
-    func fetchRecipe(_ recipeID: String) {
-         
+    func fetchRecipes(_ array: [String]) -> [Recipe] {
+        var recipes = [Recipe]()
+        
+        array.forEach {
+            db.collection(StringConstants.recipes).whereField("recipeID", isEqualTo: $0)
+                .getDocuments { querySnapshot, error in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        for doc in querySnapshot!.documents {
+                            let recipeData = doc.data()
+                            let name = recipeData["name"] as! String
+                            let thumbnailUrl = recipeData["thumbnailUrl"] as! String
+                            let numServings = recipeData["numServings"] as! Int
+                            let userRatings = recipeData["userRatings"] as! [String : Int]
+                            let nutrition = recipeData["nutrition"] as! [String : Int]
+                            let ingredients = recipeData["ingredients"] as! [String]
+                            let instructions = recipeData["instructions"] as! [String]
+                            let isFavorited = recipeData["isFavorited"] as! Bool
+                            
+                            let userRatings1 = UserRating(score: Double(userRatings["score"]!), countPositive: userRatings["countPositive"], countNegative: userRatings["countNegative"])
+                            
+                            let nutrition1 = Nutrition(carbohydrates: nutrition["carbohydrates"], fiber: nutrition["fiber"], protein: nutrition["protein"], fat: nutrition["fat"], calories: nutrition["calories"], sugar: nutrition["sugar"])
+                            
+                            var ingredients1 = [Ingredient]()
+                            ingredients.forEach {
+                                ingredients1.append(Ingredient(rawText: $0))
+                            }
+                            var recipeComponent = RecipeComponent(components: ingredients1)
+                            
+                            var instructions1 = [Instruction]()
+                            instructions.forEach {
+                                instructions1.append(Instruction(displayText: $0))
+                            }
+                            
+                            let recipe = Recipe(name: name, thumbnailUrl: thumbnailUrl, description: "", numServings: numServings, recipes: nil, userRatings: userRatings1, nutrition: nutrition1, sections: [recipeComponent], instructions: instructions1, isFavorited: isFavorited)
+                            
+                            recipes.append(recipe)
+                        }
+                        
+                    }
+                }
+        }
+        
+        return recipes
+    }
+    
+    func convertDBObjectToRecipeObject() {
+        
     }
     
 }

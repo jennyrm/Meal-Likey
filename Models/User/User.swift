@@ -14,9 +14,9 @@ class User: Codable {
     var createdRecipes: [Recipe]
     let userID: String
     
-    init(username: String, favoriteRecipes: [Recipe] = [], createdRecipes: [Recipe] = [], userID: String = UUID().uuidString) {
+    init(username: String, favoritedRecipes: [Recipe] = [], createdRecipes: [Recipe] = [], userID: String = UUID().uuidString) {
         self.username = username
-        self.favoritedRecipes = favoriteRecipes
+        self.favoritedRecipes = favoritedRecipes
         self.createdRecipes = createdRecipes
         self.userID = userID
     }

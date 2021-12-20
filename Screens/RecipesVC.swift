@@ -94,6 +94,7 @@ class RecipesVC: UIViewController {
         snapshot.appendSections([.recipes])
         snapshot.appendItems(recipeList)
         
+        //can run on background thread
         dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
     }
     

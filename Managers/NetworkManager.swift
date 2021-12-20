@@ -12,7 +12,8 @@ class NetworkManager {
     static let shared = NetworkManager()
     let cache = NSCache<NSString, UIImage>()
     
-    private let baseURL = "https://tasty.p.rapidapi.com/recipes/list"
+    private let baseURL = "https://tasty.p.rapidapi.com/"
+    private let recipesListEndpoint = "recipes/list"
     private let headers = [
         "X-RapidAPI-Host": "tasty.p.rapidapi.com",
         "X-RapidAPI-Key": "a811ef2008mshbbf3ee1dc3019edp17f547jsna443ca249c84"
@@ -23,16 +24,17 @@ class NetworkManager {
     
     func getRecipes(for recipe: String, from recipeValue: Int, completed: @escaping (Result<TopLevelObject, MLError>) -> Void) {
         
-        let endpoint = URL(string: baseURL)
-        var components = URLComponents(url: endpoint!, resolvingAgainstBaseURL: true)
+        guard let url = URL(string: baseURL + recipesListEndpoint) else { return }
+        
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
         let fromQuery = URLQueryItem(name: "from", value: String(recipeValue))
         let sizeQuery = URLQueryItem(name: "size", value: "40")
         let qQuery = URLQueryItem(name: "q", value: recipe)
         components?.queryItems = [fromQuery, sizeQuery, qQuery]
         
-        guard let url = components?.url else { return }
+        guard let completeURL = components?.url else { return }
         
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: completeURL)
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = headers
         
@@ -60,7 +62,6 @@ class NetworkManager {
                 completed(.failure(.invalidData))
             }
         }
-        
         task.resume()
     }
     

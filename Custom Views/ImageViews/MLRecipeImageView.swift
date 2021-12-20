@@ -58,7 +58,6 @@ class MLRecipeImageView: UIImageView {
                 self.image = image
             }
         }
-        
         task.resume()
     }
     

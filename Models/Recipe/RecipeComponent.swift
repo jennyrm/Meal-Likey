@@ -8,6 +8,5 @@
 import Foundation
 
 struct RecipeComponent: Codable, Hashable {
-    let name: String?
     let components: [Ingredient]
 }
