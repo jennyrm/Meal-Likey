@@ -59,48 +59,44 @@ class MLTabulatedInfoVC: UIViewController {
     private func configureNutritionTab() {
         let nutrition = recipe.nutrition
         
-        var nutritionArray = [String]()
+        var nutritionArr = [String]()
         
         let calories = nutrition.calories != nil ? "Calories: \(nutrition.calories!)" : "Calories: ——"
-        nutritionArray.append(calories)
+        nutritionArr.append(calories)
         
         let fat = nutrition.fat != nil ? "Fat: \(nutrition.fat!)" : "Fat: ——"
-        nutritionArray.append(fat)
+        nutritionArr.append(fat)
         
         let carbohydrates = nutrition.carbohydrates != nil ? "Carbohydrates: \(nutrition.carbohydrates!)" : "Carbohydrates: ——"
-        nutritionArray.append(carbohydrates)
+        nutritionArr.append(carbohydrates)
         
         let fiber = nutrition.fiber != nil ? "Fiber: \(nutrition.fiber!)" : "Fiber: ——"
-        nutritionArray.append(fiber)
+        nutritionArr.append(fiber)
        
         let sugar = nutrition.sugar != nil ? "Sugar: \(nutrition.sugar!)" : "Sugar: ——"
-        nutritionArray.append(sugar)
+        nutritionArr.append(sugar)
         
         let protein = nutrition.protein != nil ? "Protein: \(nutrition.protein!)" : "Protein: ——"
-        nutritionArray.append(protein)
+        nutritionArr.append(protein)
 
-        nutritionArray.append("*Estimated values based on one serving size.")
+        nutritionArr.append("*Estimated values based on one serving size.")
         
         //        let nutritionString = "\(numServings)\n\n\(calories)\n\n\(fat)\n\n\(carbs)\n\n\(fiber)\n\n\(sugar)\n\n\(protein)"
-        let nutritionString = nutritionArray.reduce("") { $0 + "\n" + $1 + "\n"}
+        let nutritionString = nutritionArr.reduce("") { $0 + "\n" + $1 + "\n"}
         
         segmentContainerView.set(itemInfoType: .nutrition, with: nutritionString)
     }
     
     private func configureIngredientsTab() {
-        let sections = recipe.sections
-        
-        let recipeComponents = sections.map { $0.components }
-        let ingredientsArray = recipeComponents.reduce([]) { $0 + $1 }
-        let ingredientsString = ingredientsArray.map { $0.rawText }.reduce("") { $0 + "\n" + $1 + "\n" }
+        let recipeComponents = recipe.sections.map { $0.components }
+        let ingredientsArr = recipeComponents.reduce([]) { $0 + $1 }
+        let ingredientsString = ingredientsArr.map { $0.rawText }.reduce("") { $0 + "\n" + $1 + "\n" }
         
         segmentContainerView.set(itemInfoType: .ingredients, with: ingredientsString)
     }
     
     private func configureInstructionsTab() {
-        let instructions = recipe.instructions
-        
-        let instructionsString = instructions.map { $0.displayText }.reduce("") { $0 + "\n" + $1 + "\n" }
+        let instructionsString = recipe.instructions.map { $0.displayText }.reduce("") { $0 + "\n" + $1 + "\n" }
         
         segmentContainerView.set(itemInfoType: .instructions, with: instructionsString)
     }

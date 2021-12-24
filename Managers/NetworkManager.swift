@@ -22,7 +22,7 @@ class NetworkManager {
     //make a private init for singleton so that it can only be initialized here
     private init() {}
     
-    func getRecipes(for recipe: String, from recipeValue: Int, completed: @escaping (Result<TopLevelObject, MLError>) -> Void) {
+    func getRecipes(for recipe: String, from recipeValue: Int, completion: @escaping (Result<TopLevelObject, MLError>) -> Void) {
         
         guard let url = URL(string: baseURL + recipesListEndpoint) else { return }
         
@@ -42,24 +42,24 @@ class NetworkManager {
             //if let vs guard?
             if let error = error {
                 print("Error in \(#function): on line \(#line) : \(error.localizedDescription) \n---\n \(error)")
-                return completed(.failure(.unableToComplete))
+                return completion(.failure(.unableToComplete))
             }
             
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                return completed(.failure(.invalidResponse))
+                return completion(.failure(.invalidResponse))
             }
             
             guard let data = data else {
-                return completed(.failure(.invalidData))
+                return completion(.failure(.invalidData))
             }
             
             do {
                 let decoder = JSONDecoder()
                 let data = try decoder.decode(TopLevelObject.self, from: data)
 
-                completed(.success(data))
+                completion(.success(data))
             } catch {
-                completed(.failure(.invalidData))
+                completion(.failure(.invalidData))
             }
         }
         task.resume()
