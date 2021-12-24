@@ -105,6 +105,7 @@ class RecipeVC: UIViewController {
             UserController.shared.addToFavorites(recipe!)
             
             configureFavoriteButton()
+            DatabaseManager.shared.saveUserData()
         } else {
             UserController.shared.removeFromFavorites(recipe!)
             recipe?.isFavorited = false
@@ -115,6 +116,7 @@ class RecipeVC: UIViewController {
     
     @objc func dismissVC() {
         self.dismiss(animated: true, completion: nil)
+        DatabaseManager.shared.fetchUserData()
     }
     
 }
