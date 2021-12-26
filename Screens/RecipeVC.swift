@@ -116,7 +116,6 @@ class RecipeVC: UIViewController {
     
     @objc func dismissVC() {
         self.dismiss(animated: true, completion: nil)
-        DatabaseManager.shared.fetchUserData()
     }
     
 }

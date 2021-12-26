@@ -23,7 +23,6 @@ class SearchVC: UIViewController {
         configureTextField()
         configureCallToActionButton()
         createDismissKeyboardTapGesture()
-        DatabaseManager.shared.fetchUserData()
     }
     
     override func viewWillAppear(_ animated: Bool) {

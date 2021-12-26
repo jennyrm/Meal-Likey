@@ -11,7 +11,7 @@ class UserController {
     
     static let shared = UserController()
     
-    let currentUser = User(username: "Jenny", userID: "1351E7C8-2B9F-4E69-BD56-20CCE692AFF3")
+    let currentUser = User(username: "Jenny")
     
     func isAlreadyFavorited(_ recipe: Recipe) -> Bool {
         return currentUser.favoritedRecipes.contains(recipe)
