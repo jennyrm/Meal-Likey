@@ -21,6 +21,17 @@ class DatabaseManager {
     
     //MARK: - Saving Data
     func saveUserData() {
+        let userDocRef = db.collection(StringConstants.users).document(currentUser.userID)
+        userDocRef.setData(["username" : currentUser.username,
+                                "userID" : currentUser.userID,
+                                "favoritedRecipes" : [],
+                                "createdRecipes" : []
+                                ])
+    }
+    
+    func updateUserDocument() {
+        let userDocRef = db.collection(StringConstants.users).document(currentUser.userID)
+        
         var favoritedRecipes = [String]()
         
         for recipe in currentUser.favoritedRecipes {
@@ -28,16 +39,7 @@ class DatabaseManager {
             createDBRecipeObject(recipe)
         }
         
-        let usersRef = db.collection(StringConstants.users).document(currentUser.userID)
-        usersRef.setData(["username" : currentUser.username,
-                              "userID" : currentUser.userID,
-                              "favoritedRecipes" : favoritedRecipes,
-                              "createdRecipes" : [""]
-                             ])
-    }
-    
-    func updateUserData() {
-        
+        userDocRef.updateData(["favoritedRecipes" : favoritedRecipes]) 
     }
     
     func saveRecipe(recipeID: String, name: String, thumbnailUrl: String, description: String, numServings: Int, userRatings: [String : Int], nutrition: [String : Int], ingredients: [String], instructions: [String], isFavorited: Bool) {
