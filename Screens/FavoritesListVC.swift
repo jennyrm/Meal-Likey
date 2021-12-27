@@ -9,7 +9,7 @@ import UIKit
 
 class FavoritesListVC: UIViewController {
     
-    let favorites = [Recipe]()
+    var favorites = [Recipe]()
     
     let tableView = UITableView()
     
@@ -40,7 +40,9 @@ class FavoritesListVC: UIViewController {
     }
     
     func fetchFavorites() {
+        let favorites = UserController.shared.currentUser.favoritedRecipes
         
+        self.favorites = favorites
     }
 
 }//End of class
@@ -52,7 +54,8 @@ extension FavoritesListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteCell.reuseID) as! FavoriteCell
-//        let recipe = favorites[indexPath.row]
+        
+        let recipe = favorites[indexPath.row]
         
         return cell
     }
