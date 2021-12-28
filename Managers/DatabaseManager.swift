@@ -21,6 +21,17 @@ class DatabaseManager {
     
     //MARK: - Saving Data
     func saveUserData() {
+        let userDocRef = db.collection(StringConstants.users).document(currentUser.userID)
+        userDocRef.setData(["username" : currentUser.username,
+                                "userID" : currentUser.userID,
+                                "favoritedRecipes" : [],
+                                "createdRecipes" : []
+                                ])
+    }
+    
+    func updateUserDocument() {
+        let userDocRef = db.collection(StringConstants.users).document(currentUser.userID)
+        
         var favoritedRecipes = [String]()
         
         for recipe in currentUser.favoritedRecipes {
@@ -28,12 +39,7 @@ class DatabaseManager {
             createDBRecipeObject(recipe)
         }
         
-        let usersRef = db.collection(StringConstants.users).document(currentUser.userID)
-        usersRef.setData(["username" : currentUser.username,
-                          "userID" : currentUser.userID,
-                          "favoritedRecipes" : favoritedRecipes,
-                          "createdRecipes" : [""]
-                         ])
+        userDocRef.updateData(["favoritedRecipes" : favoritedRecipes]) 
     }
     
     func saveRecipe(recipeID: String, name: String, thumbnailUrl: String, description: String, numServings: Int, userRatings: [String : Int], nutrition: [String : Int], ingredients: [String], instructions: [String], isFavorited: Bool) {
@@ -52,7 +58,7 @@ class DatabaseManager {
     }
     
     //MARK: - Fetching Data
-    func fetchUserData() {
+    func getUserData() {
         db.collection(StringConstants.users).whereField("userID", isEqualTo: currentUser.userID)
             .getDocuments { querySnapshot, error in
                 if let error = error {
@@ -62,7 +68,7 @@ class DatabaseManager {
                         let userData = doc.data()
                         let username = userData["username"] as! String
                         let favorited = userData["favoritedRecipes"] as! [String]
-                        let created = userData["createdRecipes"] as! [String]
+//                        let created = userData["createdRecipes"] as! [String]
                         let userID = userData["userID"] as! String
                         
                         self.getRecipes(for: favorited, completion: { result in
@@ -71,16 +77,17 @@ class DatabaseManager {
                                 let createdRecipes = [Recipe(name: "", thumbnailUrl: "", description: "", numServings: 0, recipes: nil, userRatings: UserRating(score: 0.0, countPositive: 0, countNegative: 0), nutrition: Nutrition(carbohydrates: 0, fiber: 0, protein: 0, fat: 0, calories: 0, sugar: 0), sections: [RecipeComponent(components: [Ingredient(rawText: "")])], instructions: [Instruction(displayText: "")])]
                                 
                                 let user = User(username: username, favoritedRecipes: favoritedRecipes, createdRecipes: createdRecipes, userID: userID)
-                                print("user:", user.favoritedRecipes)
+//                                print("user:", user.favoritedRecipes)
+//                                for index in user.favoritedRecipes {
+//                                    print(index)
+//                                    print(index.nutrition)
+//                                    print(index.nutrition.calories)
+//                                }
                             case .failure(let error):
                                 print("Error in \(#function): on line \(#line) : \(error.localizedDescription) \n---\n \(error)")
                             }
                         })
                         
-//                        for index in user.favoritedRecipes {
-//                            print(index.nutrition)
-//                            print(index.nutrition.calories)
-//                        }
                     }
                 }
             }
@@ -109,7 +116,6 @@ class DatabaseManager {
                             let recipe = self.convertDocumentToRecipeObject(name: name, thumbnailUrl: thumbnailUrl, description: "", numServings: numServings, userRatings: userRatings, nutrition: nutrition, ingredients: ingredients, instructions: instructions, isFavorited: isFavorited)
                             
                             recipes.append(recipe)
-//                            print(recipes)
                         }
                     }
                     completion(.success(recipes))
@@ -146,6 +152,7 @@ class DatabaseManager {
         
         let userRatingsObj = UserRating(score: Double(userRatings["score"]!), countPositive: userRatings["countPositive"], countNegative: userRatings["countNegative"])
         
+        print(nutrition)
         let nutritionObj = Nutrition(carbohydrates: nutrition["carbohydrates"], fiber: nutrition["fiber"], protein: nutrition["protein"], fat: nutrition["fat"], calories: nutrition["calories"], sugar: nutrition["sugar"])
         
         let ingredientsObj = ingredients.map { Ingredient(rawText: $0) }
