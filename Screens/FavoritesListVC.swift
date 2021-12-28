@@ -17,6 +17,10 @@ class FavoritesListVC: UIViewController {
         super.viewDidLoad()
         configureViewController()
         configureTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         fetchFavorites()
     }
     
@@ -41,8 +45,8 @@ class FavoritesListVC: UIViewController {
     
     func fetchFavorites() {
         let favorites = UserController.shared.currentUser.favoritedRecipes
-        
         self.favorites = favorites
+        tableView.reloadData()
     }
 
 }//End of class
@@ -56,6 +60,7 @@ extension FavoritesListVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteCell.reuseID) as! FavoriteCell
         
         let recipe = favorites[indexPath.row]
+        cell.set(recipe: recipe)
         
         return cell
     }
