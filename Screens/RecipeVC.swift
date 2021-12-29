@@ -105,6 +105,8 @@ class RecipeVC: UIViewController {
     }
     
     @objc func favoriteButtonTapped() {
+        guard !UserController.shared.isAlreadyFavorited(recipe!) else { return }
+        
         if recipe?.isFavorited == false {
             recipe?.isFavorited = true
             UserController.shared.addToFavorites(recipe!)
