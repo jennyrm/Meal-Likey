@@ -42,10 +42,11 @@ class DatabaseManager {
         userDocRef.updateData(["favoritedRecipes" : favoritedRecipes]) 
     }
     
-    func saveRecipe(recipeID: String, name: String, thumbnailUrl: String, description: String, numServings: Int, userRatings: [String : Int], nutrition: [String : Int], ingredients: [String], instructions: [String], isFavorited: Bool) {
+    func saveRecipe(recipeID: String, name: String, id: Int, thumbnailUrl: String, description: String, numServings: Int, userRatings: [String : Int], nutrition: [String : Int], ingredients: [String], instructions: [String], isFavorited: Bool) {
         
         let favoritesRef = db.collection(StringConstants.recipes).document(recipeID)
         favoritesRef.setData(["name" : name,
+                                 "id" : id,
                                  "thumbnailUrl" : thumbnailUrl,
                                  "numServings" : numServings,
                                  "userRatings" : userRatings,
@@ -74,7 +75,7 @@ class DatabaseManager {
                         self.getRecipes(for: favorited, completion: { result in
                             switch result {
                             case .success(let favoritedRecipes):
-                                let createdRecipes = [Recipe(name: "", thumbnailUrl: "", description: "", numServings: 0, recipes: nil, userRatings: UserRating(score: 0.0, countPositive: 0, countNegative: 0), nutrition: Nutrition(carbohydrates: 0, fiber: 0, protein: 0, fat: 0, calories: 0, sugar: 0), sections: [RecipeComponent(components: [Ingredient(rawText: "")])], instructions: [Instruction(displayText: "")])]
+                                let createdRecipes = [Recipe(name: "", id: 0, thumbnailUrl: "", description: "", numServings: 0, recipes: nil, userRatings: UserRating(score: 0.0, countPositive: 0, countNegative: 0), nutrition: Nutrition(carbohydrates: 0, fiber: 0, protein: 0, fat: 0, calories: 0, sugar: 0), sections: [RecipeComponent(components: [Ingredient(rawText: "")])], instructions: [Instruction(displayText: "")])]
                                 
                                 let user = User(username: username, favoritedRecipes: favoritedRecipes, createdRecipes: createdRecipes, userID: userID)
 //                                print("user:", user.favoritedRecipes)
@@ -105,6 +106,7 @@ class DatabaseManager {
                         for doc in querySnapshot!.documents {
                             let recipeData = doc.data()
                             let name = recipeData["name"] as! String
+                            let id = recipeData["id"] as! Int
                             let thumbnailUrl = recipeData["thumbnailUrl"] as! String
                             let numServings = recipeData["numServings"] as! Int
                             let userRatings = recipeData["userRatings"] as! [String : Int]
@@ -113,7 +115,7 @@ class DatabaseManager {
                             let instructions = recipeData["instructions"] as! [String]
                             let isFavorited = recipeData["isFavorited"] as! Bool
                             
-                            let recipe = self.convertDocumentToRecipeObject(name: name, thumbnailUrl: thumbnailUrl, description: "", numServings: numServings, userRatings: userRatings, nutrition: nutrition, ingredients: ingredients, instructions: instructions, isFavorited: isFavorited)
+                            let recipe = self.convertDocumentToRecipeObject(name: name, id: id, thumbnailUrl: thumbnailUrl, description: "", numServings: numServings, userRatings: userRatings, nutrition: nutrition, ingredients: ingredients, instructions: instructions, isFavorited: isFavorited)
                             
                             recipes.append(recipe)
                         }
@@ -125,7 +127,7 @@ class DatabaseManager {
     
     //MARK: - Helper Functions
     func createDBRecipeObject(_ recipe: Recipe) {
-        let recipeID = recipe.recipeID, name = recipe.name, thumbnailUrl = recipe.thumbnailUrl, description = recipe.description, numServings = recipe.numServings, isFavorited = recipe.isFavorited
+        let recipeID = recipe.recipeID, name = recipe.name, id = recipe.id, thumbnailUrl = recipe.thumbnailUrl, description = recipe.description, numServings = recipe.numServings, isFavorited = recipe.isFavorited
         
         var userRatingsDict = [String : Int]()
         var nutritionDict = [String : Int]()
@@ -145,10 +147,10 @@ class DatabaseManager {
         
         let instructionsArr = recipe.instructions.map { $0.displayText }
         
-        saveRecipe(recipeID: recipeID, name: name, thumbnailUrl: thumbnailUrl, description: description, numServings: numServings, userRatings: userRatingsDict, nutrition: nutritionDict, ingredients: ingredientsArr, instructions: instructionsArr, isFavorited: isFavorited)
+        saveRecipe(recipeID: recipeID, name: name, id: id, thumbnailUrl: thumbnailUrl, description: description, numServings: numServings, userRatings: userRatingsDict, nutrition: nutritionDict, ingredients: ingredientsArr, instructions: instructionsArr, isFavorited: isFavorited)
     }
     
-    func convertDocumentToRecipeObject(name: String, thumbnailUrl: String, description: String, numServings: Int, userRatings: [String : Int], nutrition: [String : Int], ingredients: [String], instructions: [String], isFavorited: Bool) -> Recipe {
+    func convertDocumentToRecipeObject(name: String, id: Int, thumbnailUrl: String, description: String, numServings: Int, userRatings: [String : Int], nutrition: [String : Int], ingredients: [String], instructions: [String], isFavorited: Bool) -> Recipe {
         
         let userRatingsObj = UserRating(score: Double(userRatings["score"]!), countPositive: userRatings["countPositive"], countNegative: userRatings["countNegative"])
         
@@ -160,7 +162,7 @@ class DatabaseManager {
         
         let instructionsObj = instructions.map { Instruction(displayText: $0) }
         
-        let recipe = Recipe(name: name, thumbnailUrl: thumbnailUrl, description: "", numServings: numServings, recipes: nil, userRatings: userRatingsObj, nutrition: nutritionObj, sections: [recipeComponent], instructions: instructionsObj, isFavorited: isFavorited)
+        let recipe = Recipe(name: name, id: id, thumbnailUrl: thumbnailUrl, description: "", numServings: numServings, recipes: nil, userRatings: userRatingsObj, nutrition: nutritionObj, sections: [recipeComponent], instructions: instructionsObj, isFavorited: isFavorited)
 
         return recipe
     }

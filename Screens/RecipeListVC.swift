@@ -10,6 +10,7 @@ import UIKit
 class RecipeListVC: UIViewController {
 
     var recipeList = [RecipeListItem]()
+    weak var delegate: isAlreadyFavorited!
     
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, RecipeListItem>!

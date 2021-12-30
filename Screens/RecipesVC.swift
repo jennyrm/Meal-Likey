@@ -107,10 +107,13 @@ extension RecipesVC: UICollectionViewDelegate {
         
         if let recipeList = recipes[indexPath.item].recipes {
             recipeListVC.recipeList = recipeList
+            recipeListVC.delegate = self
+            
             navigationController?.pushViewController(recipeListVC, animated: true)
         } else {
             let recipe = recipes[indexPath.item]
             recipeVC.recipe = recipe
+            recipeVC.delegate = self
             
             let navController = UINavigationController(rootViewController: recipeVC)
             present(navController, animated: true, completion: nil)
@@ -135,3 +138,8 @@ extension RecipesVC: UICollectionViewDelegate {
     }
 }
 
+extension RecipesVC: isAlreadyFavorited {
+    func toggleFavoriteButton(on recipe: Recipe) {
+        <#code#>
+    }
+}

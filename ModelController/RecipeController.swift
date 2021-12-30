@@ -14,6 +14,7 @@ class RecipeController {
     func createRecipeObject(from recipeListItem: RecipeListItem) -> Recipe {
         let recipe = Recipe(
                                 name: recipeListItem.name,
+                                id: recipeListItem.id,
                                 thumbnailUrl: recipeListItem.thumbnailUrl ?? "",
                                 description: recipeListItem.description ?? "",
                                 numServings: recipeListItem.numServings ?? 0,
