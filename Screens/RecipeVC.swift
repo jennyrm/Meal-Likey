@@ -10,6 +10,7 @@ import UIKit
 class RecipeVC: UIViewController {
     
     var recipe: Recipe?
+    weak var delegate: isAlreadyFavorited!
 
     var scrollView: UIScrollView!
     var headerView = UIView()
@@ -40,10 +41,6 @@ class RecipeVC: UIViewController {
     func configureFavoriteButton() {
         guard let recipe = recipe else { return }
         
-//        if UserController.sharedInstance.isAlreadyFavorited(recipe) {
-//            recipe.isFavorited = true
-//        }
-//        
         let favoriteButtonIcon = recipe.isFavorited == true ? SFSymbols.heartFilled : SFSymbols.heart
         
         let favoriteButton = UIBarButtonItem(image: UIImage(systemName: favoriteButtonIcon), style: .plain, target: self, action: #selector(favoriteButtonTapped))
@@ -105,6 +102,8 @@ class RecipeVC: UIViewController {
     }
     
     @objc func favoriteButtonTapped() {
+        guard !UserController.shared.isAlreadyFavorited(recipe!) else { return }
+        
         if recipe?.isFavorited == false {
             recipe?.isFavorited = true
             UserController.shared.addToFavorites(recipe!)

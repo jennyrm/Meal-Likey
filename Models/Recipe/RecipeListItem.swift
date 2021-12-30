@@ -9,6 +9,7 @@ import Foundation
 
 struct RecipeListItem: Codable, Hashable {
     let name: String
+    let id: Int
     let thumbnailUrl: String?
     let videoUrl: String?
     let description: String?
@@ -19,6 +20,6 @@ struct RecipeListItem: Codable, Hashable {
     let instructions: [Instruction]?
     
     private enum CodingKeys: String, CodingKey {
-        case name = "name", thumbnailUrl = "thumbnail_url", videoUrl = "video_url", description = "description", numServings = "num_servings", userRatings = "user_ratings", nutrition = "nutrition", sections = "sections", instructions = "instructions"
+        case name = "name", id = "id", thumbnailUrl = "thumbnail_url", videoUrl = "video_url", description = "description", numServings = "num_servings", userRatings = "user_ratings", nutrition = "nutrition", sections = "sections", instructions = "instructions"
     }
 }

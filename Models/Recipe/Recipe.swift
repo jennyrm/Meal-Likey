@@ -10,6 +10,7 @@ import Foundation
 class Recipe: Codable {
     
     var name: String
+    var id: Int
     var thumbnailUrl: String
     var description: String
     var numServings: Int
@@ -22,13 +23,14 @@ class Recipe: Codable {
     var recipeID: String
     
     private enum CodingKeys: String, CodingKey {
-        case name = "name", thumbnailUrl = "thumbnail_url", description = "description", numServings = "num_servings", recipes = "recipes", userRatings = "user_ratings", nutrition = "nutrition", sections = "sections", instructions = "instructions", isFavorited = "isFavorited", recipeID = "recipeID"
+        case name = "name", id = "id", thumbnailUrl = "thumbnail_url", description = "description", numServings = "num_servings", recipes = "recipes", userRatings = "user_ratings", nutrition = "nutrition", sections = "sections", instructions = "instructions", isFavorited = "isFavorited", recipeID = "recipeID"
     }
     
     //some json objects do not have a recipes property, so this is needed to check against that
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
+        id = try container.decodeIfPresent(Int.self, forKey: .id)!
         thumbnailUrl = try container.decodeIfPresent(String.self, forKey: .thumbnailUrl) ?? ""
         description = try container.decodeIfPresent(String.self, forKey: .description) ?? ""
         numServings = try container.decodeIfPresent(Int.self, forKey: .numServings) ?? 0
@@ -41,8 +43,9 @@ class Recipe: Codable {
         recipeID = try container.decodeIfPresent(String.self, forKey: .isFavorited) ?? UUID().uuidString
     }
     
-    init(name: String, thumbnailUrl: String, description: String, numServings: Int, recipes: [RecipeListItem]?, userRatings: UserRating, nutrition: Nutrition, sections: [RecipeComponent], instructions: [Instruction], isFavorited: Bool = false, recipeID: String = UUID().uuidString) {
+    init(name: String, id: Int, thumbnailUrl: String, description: String, numServings: Int, recipes: [RecipeListItem]?, userRatings: UserRating, nutrition: Nutrition, sections: [RecipeComponent], instructions: [Instruction], isFavorited: Bool = false, recipeID: String = UUID().uuidString) {
         self.name = name
+        self.id = id
         self.thumbnailUrl = thumbnailUrl
         self.description = description
         self.numServings = numServings
@@ -59,14 +62,14 @@ class Recipe: Codable {
 
 //structs have an automatic hashable synthesizer?
 extension Recipe: Hashable {
+    //jennyrm - FIX
     func hash(into hasher: inout Hasher) {
-        hasher.combine(self.name)
-        hasher.combine(self.thumbnailUrl)
+        hasher.combine(self.id)
     }
 }
 
 extension Recipe: Equatable {
     static func == (lhs: Recipe, rhs: Recipe) -> Bool {
-        return lhs.recipeID == rhs.recipeID
+        return lhs.id == rhs.id
     }
 }
