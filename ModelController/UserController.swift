@@ -15,8 +15,8 @@ class UserController {
     
     func isAlreadyFavorited(_ recipe: Recipe) -> Bool {
         if let index = currentUser.favoritedRecipes.firstIndex(where: { $0 == recipe }) {
-            let recipe1 = currentUser.favoritedRecipes[index]
-            if recipe.id == recipe1.id {
+            let recipeToCompare = currentUser.favoritedRecipes[index]
+            if recipe.id == recipeToCompare.id {
                 return true
             }
         }
