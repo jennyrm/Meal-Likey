@@ -140,6 +140,6 @@ extension RecipesVC: UICollectionViewDelegate {
 
 extension RecipesVC: isAlreadyFavorited {
     func toggleFavoriteButton(on recipe: Recipe) {
-        <#code#>
+        collectionView.reloadData()
     }
 }
