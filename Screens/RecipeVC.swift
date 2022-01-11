@@ -41,6 +41,15 @@ class RecipeVC: UIViewController {
     func configureFavoriteButton() {
         guard let recipe = recipe else { return }
         
+        guard !UserController.shared.isAlreadyFavorited(recipe) else {
+            let favoriteButtonIcon = SFSymbols.heartFilled
+            
+            let favoriteButton = UIBarButtonItem(image: UIImage(systemName: favoriteButtonIcon), style: .plain, target: self, action: #selector(favoriteButtonTapped))
+            
+            navigationItem.rightBarButtonItem = favoriteButton
+            return
+        }
+        
         let favoriteButtonIcon = recipe.isFavorited == true ? SFSymbols.heartFilled : SFSymbols.heart
         
         let favoriteButton = UIBarButtonItem(image: UIImage(systemName: favoriteButtonIcon), style: .plain, target: self, action: #selector(favoriteButtonTapped))

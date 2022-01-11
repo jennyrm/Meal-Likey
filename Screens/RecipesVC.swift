@@ -131,7 +131,7 @@ extension RecipesVC: UICollectionViewDelegate {
         
         if offsetY > contentHeight - height {
             recipeValue += 40
-            //if the start of the the next recipe value is greater than the count of recipescoffee, then return out
+            //if the start of the the next recipe value is greater than the count of recipes, then return out
             guard recipeValue < recipeCount else { return }
             getRecipes(for: item, from: recipeValue)
         }
