@@ -17,6 +17,8 @@ class FavoritesListVC: UIViewController {
         super.viewDidLoad()
         configureViewController()
         configureTableView()
+        UserController.shared.getUserData()
+        fetchFavorites()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,6 +46,7 @@ class FavoritesListVC: UIViewController {
     }
     
     func fetchFavorites() {
+        //jennyrm - FIX
         let favorites = UserController.shared.currentUser.favoritedRecipes
         self.favorites = favorites
         tableView.reloadData()
