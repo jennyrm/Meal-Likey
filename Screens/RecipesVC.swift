@@ -107,13 +107,11 @@ extension RecipesVC: UICollectionViewDelegate {
         
         if let recipeList = recipes[indexPath.item].recipes {
             recipeListVC.recipeList = recipeList
-            recipeListVC.delegate = self
             
             navigationController?.pushViewController(recipeListVC, animated: true)
         } else {
             let recipe = recipes[indexPath.item]
             recipeVC.recipe = recipe
-            recipeVC.delegate = self
             
             let navController = UINavigationController(rootViewController: recipeVC)
             present(navController, animated: true, completion: nil)
@@ -131,15 +129,10 @@ extension RecipesVC: UICollectionViewDelegate {
         
         if offsetY > contentHeight - height {
             recipeValue += 40
-            //if the start of the the next recipe value is greater than the count of recipescoffee, then return out
+            //if the start of the the next recipe value is greater than the count of recipes, then return out
             guard recipeValue < recipeCount else { return }
             getRecipes(for: item, from: recipeValue)
         }
     }
 }
 
-extension RecipesVC: isAlreadyFavorited {
-    func toggleFavoriteButton(on recipe: Recipe) {
-        collectionView.reloadData()
-    }
-}

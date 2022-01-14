@@ -11,7 +11,7 @@ class UserController {
     
     static let shared = UserController()
     
-    let currentUser = User(username: "Jenny")
+    var currentUser: User = User(username: "Jenny", userID: "30B9DA82-4103-4DF8-B944-B125C3B70163")
     
     func isAlreadyFavorited(_ recipe: Recipe) -> Bool {
         if let index = currentUser.favoritedRecipes.firstIndex(where: { $0 == recipe }) {
@@ -36,8 +36,16 @@ class UserController {
         }
     }
     
-    func fetchUserFavorites() -> [Recipe] {
-        return currentUser.favoritedRecipes
+    func getUserData() {
+        DatabaseManager.shared.getUserData { result in
+            switch result {
+            case .success(let user):
+                print(user)
+                self.currentUser = user
+            case .failure(let error):
+                print("Error in \(#function): on line \(#line) : \(error.localizedDescription) \n---\n \(error)")
+            }
+        }
     }
     
 }

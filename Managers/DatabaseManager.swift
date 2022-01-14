@@ -59,7 +59,7 @@ class DatabaseManager {
     }
     
     //MARK: - Fetching Data
-    func getUserData() {
+    func getUserData(completion: @escaping (Result<User, MLError>) -> Void) {
         db.collection(StringConstants.users).whereField("userID", isEqualTo: currentUser.userID)
             .getDocuments { querySnapshot, error in
                 if let error = error {
@@ -75,9 +75,11 @@ class DatabaseManager {
                         self.getRecipes(for: favorited, completion: { result in
                             switch result {
                             case .success(let favoritedRecipes):
+                                //jennyrm - FIX
                                 let createdRecipes = [Recipe(name: "", id: 0, thumbnailUrl: "", description: "", numServings: 0, recipes: nil, userRatings: UserRating(score: 0.0, countPositive: 0, countNegative: 0), nutrition: Nutrition(carbohydrates: 0, fiber: 0, protein: 0, fat: 0, calories: 0, sugar: 0), sections: [RecipeComponent(components: [Ingredient(rawText: "")])], instructions: [Instruction(displayText: "")])]
                                 
                                 let user = User(username: username, favoritedRecipes: favoritedRecipes, createdRecipes: createdRecipes, userID: userID)
+                                completion(.success(user))
 //                                print("user:", user.favoritedRecipes)
 //                                for index in user.favoritedRecipes {
 //                                    print(index)
@@ -88,7 +90,6 @@ class DatabaseManager {
                                 print("Error in \(#function): on line \(#line) : \(error.localizedDescription) \n---\n \(error)")
                             }
                         })
-                        
                     }
                 }
             }
